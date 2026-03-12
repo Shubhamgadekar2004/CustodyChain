@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Digital Evidence Acquisition Form – External Storage Media</title>
+  <style>
+    :root{--primary:#0d47a1;--accent:#00b0ff;--success:#00c853;--danger:#d32f2f;--dark:#0a0e1a;--card:#0f1629;--border:#1e2d55;--text:#e8eaf6;--muted:#8892b0;--input:#111c35;--radius:8px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;}
+    .form-header{background:linear-gradient(135deg,#060c1e,#0d2060);padding:2rem;text-align:center;border-bottom:2px solid var(--accent);}
+    .form-header .emblem{font-size:3rem;margin-bottom:0.5rem;}
+    .form-header h1{font-size:1.3rem;font-weight:700;letter-spacing:0.05em;color:#fff;}
+    .form-header p{font-size:0.85rem;color:var(--muted);margin-top:0.25rem;}
+    .blockchain-badge{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(0,176,255,0.1);border:1px solid var(--accent);border-radius:50px;padding:0.3rem 1rem;font-size:0.75rem;color:var(--accent);margin-top:0.75rem;}
+    .page{max-width:960px;margin:0 auto;padding:2rem;}
+    .section-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;}
+    .section-title{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:1.2rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+    .form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+    .form-group{margin-bottom:0.85rem;}
+    label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.35rem;}
+    input[type="text"],input[type="date"],input[type="time"],input[type="datetime-local"],select,textarea{width:100%;background:var(--input);border:1px solid var(--border);border-radius:var(--radius);padding:0.6rem 0.9rem;color:var(--text);font-size:0.9rem;outline:none;transition:border-color .2s,box-shadow .2s;font-family:inherit;}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,176,255,.15);}
+    select option{background:var(--input);}
+    textarea{resize:vertical;min-height:70px;}
+    .radio-group{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.4rem;}
+    .check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.5rem;margin-top:0.4rem;}
+    .r-label,.c-label{display:flex;align-items:center;gap:0.4rem;font-size:0.88rem;cursor:pointer;}
+    input[type="radio"],input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px;}
+    .btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.4rem;border:none;border-radius:var(--radius);font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;}
+    .btn-primary{background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;box-shadow:0 4px 14px rgba(13,71,161,.45);}
+    .btn-primary:hover{transform:translateY(-1px);}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+    .btn-sm{padding:0.4rem 0.85rem;font-size:0.8rem;}
+    .action-bar{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-top:1rem;}
+    .alert{padding:0.85rem 1rem;border-radius:var(--radius);margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;font-size:0.9rem;}
+    .alert.show{display:flex;}
+    .alert-success{background:rgba(0,200,83,.12);border:1px solid var(--success);color:#69f0ae;}
+    .alert-danger{background:rgba(211,47,47,.15);border:1px solid var(--danger);color:#ff6b6b;}
+    .result-box{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;font-size:0.82rem;}
+    .result-row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(30,45,85,.5);padding:0.4rem 0;}
+    .result-row:last-child{border-bottom:none;}
+    .result-key{color:var(--muted);}
+    .result-val{color:#fff;font-family:monospace;word-break:break-all;text-align:right;max-width:60%;}
+    .back-link{display:inline-flex;align-items:center;gap:0.4rem;color:var(--muted);font-size:0.82rem;margin-bottom:1rem;cursor:pointer;}
+    .back-link:hover{color:var(--accent);}
+    .hash-verify-box{background:rgba(0,176,255,0.06);border:1px solid rgba(0,176,255,0.2);border-radius:var(--radius);padding:1rem;margin-top:1rem;}
+    .hash-verify-box label{color:var(--accent);}
+    @media print{body{background:#fff;color:#000;}.section-card{border-color:#ccc;}.no-print{display:none!important;}.form-header{background:#fff;border-bottom:2px solid #000;}.blockchain-badge{border-color:#000;color:#000;}input,select,textarea{border:1px solid #999;background:#fff;color:#000;}}
+  </style>
+</head>
+<body>
+
+<div class="form-header">
+  <div class="emblem">💾</div>
+  <h1>DIGITAL EVIDENCE ACQUISITION FORM</h1>
+  <p>External Storage Media &nbsp;·&nbsp; Cyber Forensics Division</p>
+  <div class="blockchain-badge">⛓ Blockchain-Secured Evidence Record</div>
+</div>
+
+<div class="page">
+  <a class="back-link no-print" onclick="history.back()">← Back</a>
+
+  <div id="alert-box" class="alert"></div>
+
+  <!-- ── Case Information ──────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">📋 Case Information</div>
+    <div class="form-row">
+      <div class="form-group"><label>Place *</label><input type="text" id="place" placeholder="City / Station" /></div>
+      <div class="form-group"><label>Date *</label><input type="date" id="date" /></div>
+      <div class="form-group"><label>Case Number *</label><input type="text" id="caseNumber" placeholder="CYB/2026/…" /></div>
+      <div class="form-group"><label>Exhibit Marked As *</label><input type="text" id="exhibitMarkedAs" placeholder="A1, B2…" /></div>
+    </div>
+  </div>
+
+  <!-- ── Storage Media Details ─────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">💾 External Storage Media Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Make</label><input type="text" id="make" placeholder="SanDisk / Seagate / WD / Kingston…" /></div>
+      <div class="form-group"><label>Model</label><input type="text" id="model" /></div>
+      <div class="form-group"><label>Serial Number (S/N)</label><input type="text" id="serialNumber" /></div>
+      <div class="form-group"><label>Capacity</label><input type="text" id="capacity" placeholder="64GB / 1TB / 2TB…" /></div>
+    </div>
+    <div class="form-group">
+      <label>Media Type</label>
+      <select id="mediaType">
+        <option value="">-- Select --</option>
+        <option>USB Flash Drive / Pen Drive</option>
+        <option>External Hard Disk (HDD)</option>
+        <option>External SSD</option>
+        <option>SD / microSD Card</option>
+        <option>CF Card</option>
+        <option>Memory Stick</option>
+        <option>CD / DVD</option>
+        <option>Blu-ray Disc</option>
+        <option>Tape Drive</option>
+        <option>NAS Drive</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Interface / Connection Type</label>
+      <div class="check-grid">
+        <label class="c-label"><input type="checkbox" id="ifIDE"   /> IDE</label>
+        <label class="c-label"><input type="checkbox" id="ifSATA"  /> SATA</label>
+        <label class="c-label"><input type="checkbox" id="ifATA"   /> ATA</label>
+        <label class="c-label"><input type="checkbox" id="ifSCSI"  /> SCSI</label>
+        <label class="c-label"><input type="checkbox" id="ifUSB"   /> USB</label>
+        <label class="c-label"><input type="checkbox" id="ifUSBC"  /> USB-C</label>
+        <label class="c-label"><input type="checkbox" id="ifFW"    /> FireWire</label>
+        <label class="c-label"><input type="checkbox" id="ifOther" /> Other</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Physical Condition at Seizure</label>
+      <select id="physicalCondition">
+        <option>Good – No visible damage</option>
+        <option>Minor damage – Still functional</option>
+        <option>Damaged – Requires lab recovery</option>
+        <option>Severely damaged</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ── Write Blocker ─────────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">🛡️ Write Blocker Details</div>
+    <div class="form-group">
+      <label>Was a Write Blocker Used?</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="writeBlocker" value="Yes (Hardware)" /> Yes – Hardware</label>
+        <label class="r-label"><input type="radio" name="writeBlocker" value="Yes (Software)" /> Yes – Software</label>
+        <label class="r-label"><input type="radio" name="writeBlocker" value="No"              /> No</label>
+      </div>
+    </div>
+    <div class="form-group"><label>Write Blocker Make / Model (if used)</label><input type="text" id="writeBlockerModel" placeholder="Tableau T35es / WiebeTech UltraBlock…" /></div>
+  </div>
+
+  <!-- ── Imaging / Cloning ─────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">🖥️ Imaging / Cloning Details</div>
+    <div class="form-group">
+      <label>S/W or H/W Used for Imaging / Cloning</label>
+      <input type="text" id="imagingTool" placeholder="FTK Imager / dd / Guymager / Tableau TD3 / dc3dd…" />
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Start Date &amp; Time</label><input type="datetime-local" id="startDateTime" /></div>
+      <div class="form-group"><label>End Date &amp; Time</label><input type="datetime-local" id="endDateTime" /></div>
+      <div class="form-group"><label>Time Taken for Imaging</label><input type="text" id="timeTaken" placeholder="e.g. 2h 30m" /></div>
+    </div>
+  </div>
+
+  <!-- ── Hash Verification ─────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">🔐 Hash Verification (Integrity)</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>MD5 Hash of Source (Original)</label>
+        <input type="text" id="md5Source" placeholder="32-character MD5 hash" style="font-family:monospace" />
+      </div>
+      <div class="form-group">
+        <label>MD5 Hash of Image (Copy)</label>
+        <input type="text" id="md5Image" placeholder="32-character MD5 hash" style="font-family:monospace" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>SHA-256 Hash of Source</label>
+        <input type="text" id="sha256Source" placeholder="64-character SHA-256 hash" style="font-family:monospace" />
+      </div>
+      <div class="form-group">
+        <label>SHA-256 Hash of Image</label>
+        <input type="text" id="sha256Image" placeholder="64-character SHA-256 hash" style="font-family:monospace" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Hash Verification Result</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="hashMatch" value="MATCH"    /> ✅ MATCH (Verified)</label>
+        <label class="r-label"><input type="radio" name="hashMatch" value="MISMATCH" /> ❌ MISMATCH</label>
+        <label class="r-label"><input type="radio" name="hashMatch" value="PENDING"  /> ⏳ Pending</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Remarks ───────────────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">📝 Remarks &amp; Expert Details</div>
+    <div class="form-group"><label>Remarks / Additional Notes</label><textarea id="remarks" rows="4" placeholder="Any additional observations, anomalies, or notes…"></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Forensic Expert Name</label><input type="text" id="expertName" /></div>
+      <div class="form-group"><label>Designation</label><input type="text" id="expertDesignation" /></div>
+      <div class="form-group"><label>Badge / Employee ID</label><input type="text" id="expertBadge" /></div>
+    </div>
+  </div>
+
+  <!-- ── Actions ───────────────────────────────────────────── -->
+  <div class="action-bar no-print">
+    <button class="btn btn-primary" onclick="submitToBlockchain()">⛓ Submit to Blockchain</button>
+    <button class="btn btn-outline" onclick="window.print()">🖨️ Print Form</button>
+    <button class="btn btn-outline" onclick="clearForm()">🔄 Clear</button>
+    <a class="btn btn-outline" href="/dashboard.html">⬅️ Dashboard</a>
+  </div>
+
+  <!-- ── Result ─────────────────────────────────────────────── -->
+  <div id="result-section" style="display:none;margin-top:1.5rem">
+    <div class="section-card">
+      <div class="section-title">⛓ Blockchain Registration Confirmation</div>
+      <div id="result-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const token = sessionStorage.getItem('dems_token');
+  document.getElementById('date').valueAsDate = new Date();
+
+  function showAlert(msg,type='danger'){
+    const el=document.getElementById('alert-box');
+    el.className=`alert alert-${type} show`;
+    el.innerHTML=(type==='success'?'✅':'❌')+' '+msg;
+    el.scrollIntoView({behavior:'smooth'});
+  }
+
+  function chk(id){ const el=document.getElementById(id); return el?el.checked:false; }
+  function g(id)  { const el=document.getElementById(id); return el?el.value:''; }
+  function radio(name){ const el=document.querySelector(`input[name="${name}"]:checked`); return el?el.value:''; }
+
+  function collect(){
+    return {
+      place:g('place'), date:g('date'), caseNumber:g('caseNumber'), exhibitMarkedAs:g('exhibitMarkedAs'),
+      make:g('make'), model:g('model'), serialNumber:g('serialNumber'), capacity:g('capacity'),
+      mediaType:g('mediaType'),
+      ifIDE:chk('ifIDE'), ifSATA:chk('ifSATA'), ifATA:chk('ifATA'), ifSCSI:chk('ifSCSI'),
+      ifUSB:chk('ifUSB'), ifUSBC:chk('ifUSBC'), ifFW:chk('ifFW'), ifOther:chk('ifOther'),
+      physicalCondition:g('physicalCondition'),
+      writeBlocker:radio('writeBlocker'), writeBlockerModel:g('writeBlockerModel'),
+      imagingTool:g('imagingTool'),
+      startDateTime:g('startDateTime'), endDateTime:g('endDateTime'), timeTaken:g('timeTaken'),
+      md5Source:g('md5Source'), md5Image:g('md5Image'),
+      sha256Source:g('sha256Source'), sha256Image:g('sha256Image'),
+      hashMatch:radio('hashMatch'),
+      remarks:g('remarks'),
+      expertName:g('expertName'), expertDesignation:g('expertDesignation'), expertBadge:g('expertBadge'),
+    };
+  }
+
+  window.submitToBlockchain = async function(){
+    if(!token){ alert('Please login first'); window.location.href='/'; return; }
+    const fd=collect();
+    if(!fd.place||!fd.date||!fd.caseNumber||!fd.exhibitMarkedAs){
+      showAlert('Fill Place, Date, Case Number and Exhibit Marked As'); return;
+    }
+    try{
+      const res=await fetch('/api/evidence/submit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+        body:JSON.stringify({type:'EXTERNAL_STORAGE',caseNumber:fd.caseNumber,exhibitMarkedAs:fd.exhibitMarkedAs,formData:fd})
+      });
+      const data=await res.json();
+      if(!res.ok) throw new Error(data.error);
+      showAlert('Evidence registered on blockchain!','success');
+      document.getElementById('result-section').style.display='block';
+      document.getElementById('result-content').innerHTML=`
+        <div class="result-box">
+          <div class="result-row"><span class="result-key">Exhibit ID</span><span class="result-val">${data.exhibitId}</span></div>
+          <div class="result-row"><span class="result-key">Block Index</span><span class="result-val">#${data.blockIndex}</span></div>
+          <div class="result-row"><span class="result-key">Block Hash</span><span class="result-val">${data.blockHash}</span></div>
+          <div class="result-row"><span class="result-key">Data Fingerprint (SHA-256)</span><span class="result-val">${data.dataHash}</span></div>
+          <div class="result-row"><span class="result-key">Timestamp</span><span class="result-val">${new Date(data.submittedAt).toLocaleString('en-IN')}</span></div>
+        </div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.75rem">This record is permanently and immutably stored on the blockchain. Any modification of the original data will result in a hash mismatch, proving tampering.</p>
+        <div style="margin-top:0.75rem;display:flex;gap:0.75rem">
+          <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Print</button>
+          <a class="btn btn-outline btn-sm" href="/dashboard.html">📋 Dashboard</a>
+        </div>`;
+    } catch(e){ showAlert(e.message); }
+  };
+
+  window.clearForm=function(){ document.querySelectorAll('input,select,textarea').forEach(el=>{ if(el.type==='radio'||el.type==='checkbox') el.checked=false; else el.value=''; }); };
+})();
+</script>
+</body>
+</html>

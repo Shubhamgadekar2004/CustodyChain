@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Digital Forensic Examination Report Form</title>
+  <style>
+    :root{--primary:#0d47a1;--accent:#00e676;--success:#00c853;--danger:#d32f2f;--warning:#ffd600;--dark:#0a0e1a;--card:#0f1629;--border:#1e2d55;--text:#e8eaf6;--muted:#8892b0;--input:#111c35;--radius:8px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;}
+    .form-header{background:linear-gradient(135deg,#0a0e1a,#1a0000);padding:2rem;text-align:center;border-bottom:3px solid var(--accent);}
+    .form-header .emblem{font-size:3rem;margin-bottom:0.5rem;}
+    .form-header h1{font-size:1.3rem;font-weight:700;color:#fff;letter-spacing:0.05em;}
+    .form-header h2{font-size:0.95rem;font-weight:400;color:var(--muted);margin-top:0.2rem;}
+    .form-header p{font-size:0.85rem;color:var(--muted);margin-top:0.25rem;}
+    .blockchain-badge{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(0,230,118,0.1);border:1px solid var(--accent);border-radius:50px;padding:0.3rem 1rem;font-size:0.75rem;color:var(--accent);margin-top:0.75rem;}
+    .restricted-badge{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(255,214,0,0.1);border:1px solid var(--warning);border-radius:50px;padding:0.3rem 1rem;font-size:0.75rem;color:var(--warning);margin-top:0.5rem;margin-left:0.5rem;}
+    .page{max-width:960px;margin:0 auto;padding:2rem;}
+    .section-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;}
+    .section-card.restricted{border-color:rgba(255,214,0,.4);}
+    .section-title{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:1.2rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+    .form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+    .form-group{margin-bottom:0.85rem;}
+    label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.35rem;}
+    input[type="text"],input[type="date"],input[type="time"],input[type="datetime-local"],input[type="number"],select,textarea{width:100%;background:var(--input);border:1px solid var(--border);border-radius:var(--radius);padding:0.6rem 0.9rem;color:var(--text);font-size:0.9rem;outline:none;transition:border-color .2s,box-shadow .2s;font-family:inherit;}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,230,118,.15);}
+    select option{background:var(--input);}
+    textarea{resize:vertical;min-height:90px;}
+    .radio-group{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.4rem;}
+    .r-label,.c-label{display:flex;align-items:center;gap:0.4rem;font-size:0.88rem;cursor:pointer;}
+    input[type="radio"],input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px;}
+    .btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.4rem;border:none;border-radius:var(--radius);font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;}
+    .btn-primary{background:linear-gradient(135deg,#b71c1c,#c62828);color:#fff;}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(183,28,28,.4);}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+    .btn-sm{padding:0.4rem 0.85rem;font-size:0.8rem;}
+    .action-bar{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-top:1rem;}
+    .alert{padding:0.85rem 1rem;border-radius:var(--radius);margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;font-size:0.9rem;}
+    .alert.show{display:flex;}
+    .alert-success{background:rgba(0,200,83,.12);border:1px solid var(--success);color:#69f0ae;}
+    .alert-danger{background:rgba(211,47,47,.15);border:1px solid var(--danger);color:#ff6b6b;}
+    .result-box{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;font-size:0.82rem;}
+    .result-row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(30,45,85,.5);padding:0.4rem 0;}
+    .result-row:last-child{border-bottom:none;}
+    .result-key{color:var(--muted);}
+    .result-val{color:#fff;font-family:monospace;word-break:break-all;text-align:right;max-width:65%;}
+    .back-link{display:inline-flex;align-items:center;gap:0.4rem;color:var(--muted);font-size:0.82rem;margin-bottom:1rem;cursor:pointer;}
+    .back-link:hover{color:var(--accent);}
+    .divider{border:none;border-top:1px solid var(--border);margin:1rem 0;}
+    .tools-table{width:100%;border-collapse:collapse;font-size:0.85rem;margin-top:0.5rem;}
+    .tools-table th{background:rgba(0,0,0,.3);padding:0.5rem 0.75rem;text-align:left;font-size:0.7rem;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);}
+    .tools-table td{padding:0.4rem 0.75rem;border-bottom:1px solid rgba(30,45,85,.3);}
+    .tools-table input{width:100%;background:transparent;border:none;color:var(--text);padding:0;outline:none;}
+    .tools-table input:focus{color:var(--accent);}
+    .drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:2.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;}
+    .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:rgba(0,230,118,.04);}
+    .drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .dz-icon{font-size:2.5rem;margin-bottom:0.5rem;}
+    .dz-text{font-size:0.88rem;color:var(--muted);}
+    .dz-types{font-size:0.72rem;color:var(--muted);margin-top:0.3rem;}
+    .file-preview{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-top:0.75rem;display:none;align-items:center;gap:1rem;}
+    .file-preview.show{display:flex;}
+    .progress-bar{width:100%;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:0.5rem;display:none;}
+    .progress-bar.show{display:block;}
+    .progress-fill{height:100%;background:var(--accent);width:0;transition:width .3s;}
+    .sig-box{width:100%;height:80px;border:2px dashed var(--border);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.8rem;}
+    @media print{
+      body{background:#fff;color:#000;font-size:11pt;}
+      .section-card{border-color:#ccc;page-break-inside:avoid;}
+      .no-print{display:none!important;}
+      .form-header{background:#fff;border-bottom:2px solid #000;}
+      input,select,textarea{border:1px solid #999;background:#fff;color:#000;}
+      .tools-table th{background:#f0f0f0;color:#333;}
+      .tools-table td{border-bottom:1px solid #ccc;}
+      h1{color:#000;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-header">
+  <div class="emblem">📑</div>
+  <h1>DIGITAL FORENSIC EXAMINATION REPORT</h1>
+  <h2>Forensic Expert Report &amp; Findings — Cyber Forensics Division</h2>
+  <div>
+    <span class="blockchain-badge">⛓ Blockchain-Secured · Immutable Audit Trail</span>
+    <span class="restricted-badge">⚠️ FORENSIC EXPERT ACCESS ONLY</span>
+  </div>
+</div>
+
+<div class="page">
+  <a class="back-link no-print" onclick="history.back()">← Back</a>
+  <div id="alert-box" class="alert"></div>
+
+  <!-- Case Information -->
+  <div class="section-card">
+    <div class="section-title">📋 Case & Report Reference</div>
+    <div class="form-row">
+      <div class="form-group"><label>Case Number *</label><input type="text" id="caseNumber" placeholder="CYB/2026/…" /></div>
+      <div class="form-group"><label>Report Number</label><input type="text" id="reportNumber" placeholder="e.g. FR/2026/0042" /></div>
+      <div class="form-group"><label>Exhibit Reference(s)</label><input type="text" id="exhibitRef" placeholder="EX-001, EX-002…" /></div>
+      <div class="form-group"><label>Exhibit Marked As (Blockchain) *</label><input type="text" id="exhibitMarkedAs" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Date of Report *</label><input type="date" id="reportDate" /></div>
+      <div class="form-group"><label>Submission Date to Court / Authority</label><input type="date" id="submissionDate" /></div>
+      <div class="form-group"><label>Classification Level</label>
+        <select id="classification">
+          <option>CONFIDENTIAL</option><option>RESTRICTED</option>
+          <option>INTERNAL USE ONLY</option><option>UNCLASSIFIED</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Requesting Authority / Officer</label><input type="text" id="requestingAuthority" /></div>
+      <div class="form-group"><label>Investigating Agency</label><input type="text" id="agency" placeholder="Cyber Crime Police, CBI, CERT-In…" /></div>
+    </div>
+  </div>
+
+  <!-- Forensic Expert Details -->
+  <div class="section-card restricted">
+    <div class="section-title">👤 Forensic Examiner Information</div>
+    <div class="form-row">
+      <div class="form-group"><label>Full Name</label><input type="text" id="examinerName" /></div>
+      <div class="form-group"><label>Badge / Employee ID</label><input type="text" id="examinerBadge" /></div>
+      <div class="form-group"><label>Designation</label><input type="text" id="examinerDesignation" placeholder="Sr. Forensic Expert / Cyber Analyst…" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Qualification</label><input type="text" id="qualification" placeholder="B.Tech CS, M.Sc Digital Forensics…" /></div>
+      <div class="form-group"><label>Certifications</label><input type="text" id="certifications" placeholder="CHFI, CEH, EnCE, GCFE, GCFA…" /></div>
+      <div class="form-group"><label>Years of Experience</label><input type="number" id="experience" min="0" placeholder="e.g. 8" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Laboratory / Unit</label><input type="text" id="laboratory" /></div>
+      <div class="form-group"><label>Organisation</label><input type="text" id="organisation" /></div>
+    </div>
+  </div>
+
+  <!-- Type of Report -->
+  <div class="section-card">
+    <div class="section-title">📄 Report Type & Scope</div>
+    <div class="form-group">
+      <label>Type of Forensic Report</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="reportType" value="Digital Forensic Examination Report" /> Examination Report</label>
+        <label class="r-label"><input type="radio" name="reportType" value="Expert Opinion Report" /> Expert Opinion</label>
+        <label class="r-label"><input type="radio" name="reportType" value="Malware Analysis Report" /> Malware Analysis</label>
+        <label class="r-label"><input type="radio" name="reportType" value="Network Forensic Report" /> Network Forensics</label>
+        <label class="r-label"><input type="radio" name="reportType" value="Mobile Device Forensic Report" /> Mobile Forensics</label>
+        <label class="r-label"><input type="radio" name="reportType" value="Incident Response Report" /> Incident Response</label>
+      </div>
+    </div>
+    <div class="form-group"><label>Scope of Examination</label><textarea id="scope" rows="3" placeholder="What was the forensic examination tasked to determine? Specific questions asked by investigating officer / court…"></textarea></div>
+    <div class="form-group">
+      <label>Devices / Items Examined</label>
+      <textarea id="itemsExamined" rows="3" placeholder="List exhibits and items submitted for examination with their marks (e.g. EX-001: Samsung Galaxy A52, IMEI 355…)"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Examination Start Date</label><input type="date" id="examStart" /></div>
+      <div class="form-group"><label>Examination End Date</label><input type="date" id="examEnd" /></div>
+    </div>
+  </div>
+
+  <!-- Methodology & Tools -->
+  <div class="section-card">
+    <div class="section-title">🛠️ Methodology & Tools Used</div>
+    <div class="form-group"><label>Examination Methodology / Standard Applied</label><textarea id="methodology" rows="3" placeholder="e.g. ISO 27037:2012 (Digital Evidence Identification/Preservation), NIST SP 800-86, ACPO Good Practice Guide…"></textarea></div>
+    <table class="tools-table">
+      <thead><tr><th>#</th><th>Tool / Software Name</th><th>Version</th><th>Purpose</th><th>Licensed?</th></tr></thead>
+      <tbody id="toolsBody">
+        <tr><td>1</td><td><input type="text" placeholder="Autopsy" /></td><td><input type="text" placeholder="4.21" /></td><td><input type="text" placeholder="Disk image analysis" /></td><td><input type="text" placeholder="Yes – Open Source" /></td></tr>
+        <tr><td>2</td><td><input type="text" placeholder="FTK Imager" /></td><td><input type="text" placeholder="4.7" /></td><td><input type="text" placeholder="Evidence imaging" /></td><td><input type="text" placeholder="Licensed" /></td></tr>
+        <tr><td>3</td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+        <tr><td>4</td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.72rem;color:var(--muted);margin-top:0.5rem">All tools validated and approved for court-admissible forensic examination.</p>
+  </div>
+
+  <!-- Findings -->
+  <div class="section-card">
+    <div class="section-title">🔍 Examination Findings</div>
+    <div class="form-group"><label>Summary of Findings</label><textarea id="findingsSummary" rows="5" placeholder="Summarise what was found during the examination. Be factual and objective. Include recovered artefacts, deleted files found, communications, timestamps, user activity etc."></textarea></div>
+    <div class="form-group"><label>Key Digital Artefacts / Evidence Found</label><textarea id="artefacts" rows="4" placeholder="List specific files, messages, logs, browsing history, IP addresses, cryptocurrency wallets, malware signatures, etc. that are relevant to the case…"></textarea></div>
+    <div class="form-group"><label>Hash Verification of Examined Exhibits</label><textarea id="hashVerification" rows="2" placeholder="e.g. EX-001 – Samsung A52 Image – SHA-256: aabb…cc (Verified match with acquisition hash)…"></textarea></div>
+    <div class="form-group">
+      <label>Chain of Custody Maintained?</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="custodyMaintained" value="Yes" /> Yes</label>
+        <label class="r-label"><input type="radio" name="custodyMaintained" value="No – Discrepancy Noted" /> No – Discrepancy Noted</label>
+        <label class="r-label"><input type="radio" name="custodyMaintained" value="Partial" /> Partial</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conclusion -->
+  <div class="section-card">
+    <div class="section-title">💡 Opinion & Conclusion</div>
+    <div class="form-group"><label>Expert Opinion / Conclusion</label><textarea id="conclusion" rows="5" placeholder="State your professional opinion based on findings. Address the specific questions raised in the scope. Express opinions in clear, unambiguous language suitable for a court of law…"></textarea></div>
+    <div class="form-group">
+      <label>Report Confidence Level</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="confidence" value="High – Conclusive" /> High – Conclusive</label>
+        <label class="r-label"><input type="radio" name="confidence" value="Medium – Probable" /> Medium – Probable</label>
+        <label class="r-label"><input type="radio" name="confidence" value="Low – Indicative Only" /> Low – Indicative</label>
+        <label class="r-label"><input type="radio" name="confidence" value="Inconclusive" /> Inconclusive</label>
+      </div>
+    </div>
+    <div class="form-group"><label>Limitations / Caveats</label><textarea id="limitations" rows="3" placeholder="State any limitations of the examination (e.g. encrypted data not accessible, partial data recovery, tool limitations)…"></textarea></div>
+  </div>
+
+  <!-- Exhibits Attached -->
+  <div class="section-card">
+    <div class="section-title">📎 Exhibits / Attachments</div>
+    <div class="form-group"><label>List of Attachments to This Report</label><textarea id="attachments" rows="3" placeholder="Annex A – Screenshot evidence&#10;Annex B – Extracted call records&#10;Annex C – Hash verification report"></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Number of Pages</label><input type="number" id="pageCount" placeholder="e.g. 24" /></div>
+      <div class="form-group"><label>Number of Annexures</label><input type="number" id="annexureCount" placeholder="e.g. 3" /></div>
+    </div>
+  </div>
+
+  <!-- Upload -->
+  <div class="section-card no-print">
+    <div class="section-title">📤 Upload Report Document (PDF/DOCX)</div>
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept=".pdf,.docx,.doc,.odt" />
+      <div class="dz-icon">📑</div>
+      <div class="dz-text">Drag & drop the signed forensic report PDF, or click to browse</div>
+      <div class="dz-types">Accepted: PDF, DOCX, DOC, ODT</div>
+    </div>
+    <div class="file-preview" id="filePreview">
+      <div style="font-size:2rem">📑</div>
+      <div><div id="previewName" style="font-size:0.9rem;font-weight:600"></div><div id="previewMeta" style="font-size:0.75rem;color:var(--muted)"></div></div>
+    </div>
+    <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <!-- Declaration -->
+  <div class="section-card">
+    <div class="section-title">⚖️ Declaration of Forensic Expert</div>
+    <p style="font-size:0.85rem;line-height:1.7;color:var(--muted);margin-bottom:1rem;">
+      I hereby declare that the information furnished in this report is true, accurate, and based on my professional forensic examination conducted in accordance with established forensic standards. I am competent to provide expert opinion in digital forensics. I understand that this report may be submitted as evidence before a court of law and that providing false information constitutes a criminal offence.
+    </p>
+    <div class="form-row">
+      <div class="form-group"><label>Examiner Name (Printed)</label><input type="text" id="declName" /></div>
+      <div class="form-group"><label>Date of Signing</label><input type="date" id="declDate" /></div>
+      <div class="form-group"><label>Place</label><input type="text" id="declPlace" /></div>
+    </div>
+    <div class="form-group"><label>Digital Signature / Seal Reference</label><input type="text" id="sigRef" placeholder="Digital signature ID or seal reference number" /></div>
+    <div class="sig-box no-print">[ Signature captured on submission ]</div>
+  </div>
+
+  <div class="action-bar no-print">
+    <button class="btn btn-primary" onclick="submitToBlockchain()">⛓ Submit Report to Blockchain</button>
+    <button class="btn btn-outline" onclick="window.print()">🖨️ Print Report</button>
+    <button class="btn btn-outline" onclick="clearAll()">🔄 Clear</button>
+    <a class="btn btn-outline" href="/dashboard.html">⬅️ Dashboard</a>
+  </div>
+
+  <div id="result-section" style="display:none;margin-top:1.5rem">
+    <div class="section-card">
+      <div class="section-title">⛓ Blockchain Registration Confirmation</div>
+      <div id="result-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const token=sessionStorage.getItem('dems_token');
+  document.getElementById('reportDate').valueAsDate=new Date();
+  document.getElementById('declDate').valueAsDate=new Date();
+  const fileInput=document.getElementById('fileInput');const dropZone=document.getElementById('dropZone');const preview=document.getElementById('filePreview');
+  function showPreview(f){document.getElementById('previewName').textContent=f.name;document.getElementById('previewMeta').textContent=`${(f.size/1024/1024).toFixed(2)} MB · ${f.type||'unknown'}`;preview.classList.add('show');}
+  fileInput.addEventListener('change',()=>{if(fileInput.files[0])showPreview(fileInput.files[0]);});
+  dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover');});
+  dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
+  dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragover');const f=e.dataTransfer.files[0];if(f){fileInput.files=e.dataTransfer.files;showPreview(f);}});
+  function showAlert(msg,type='danger'){const el=document.getElementById('alert-box');el.className=`alert alert-${type} show`;el.innerHTML=(type==='success'?'✅':'❌')+' '+msg;el.scrollIntoView({behavior:'smooth'});}
+  function g(id){const el=document.getElementById(id);return el?el.value:'';}
+  function radio(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'';}
+  function collectTools(){const rows=document.querySelectorAll('#toolsBody tr');const tools=[];rows.forEach(r=>{const ins=r.querySelectorAll('input');const t={name:ins[0]?.value,version:ins[1]?.value,purpose:ins[2]?.value,licensed:ins[3]?.value};if(t.name) tools.push(t);});return tools;}
+  window.submitToBlockchain=async function(){
+    if(!token){alert('Please login');window.location.href='/';return;}
+    const fd={caseNumber:g('caseNumber'),reportNumber:g('reportNumber'),exhibitRef:g('exhibitRef'),exhibitMarkedAs:g('exhibitMarkedAs'),
+      reportDate:g('reportDate'),submissionDate:g('submissionDate'),classification:g('classification'),
+      requestingAuthority:g('requestingAuthority'),agency:g('agency'),
+      examinerName:g('examinerName'),examinerBadge:g('examinerBadge'),examinerDesignation:g('examinerDesignation'),
+      qualification:g('qualification'),certifications:g('certifications'),experience:g('experience'),laboratory:g('laboratory'),organisation:g('organisation'),
+      reportType:radio('reportType'),scope:g('scope'),itemsExamined:g('itemsExamined'),examStart:g('examStart'),examEnd:g('examEnd'),
+      methodology:g('methodology'),toolsUsed:collectTools(),
+      findingsSummary:g('findingsSummary'),artefacts:g('artefacts'),hashVerification:g('hashVerification'),custodyMaintained:radio('custodyMaintained'),
+      conclusion:g('conclusion'),confidence:radio('confidence'),limitations:g('limitations'),
+      attachments:g('attachments'),pageCount:g('pageCount'),annexureCount:g('annexureCount'),
+      declName:g('declName'),declDate:g('declDate'),declPlace:g('declPlace'),sigRef:g('sigRef'),
+    };
+    if(!fd.caseNumber||!fd.reportDate||!fd.exhibitMarkedAs||!fd.examinerName){showAlert('Fill required fields: Case No., Examiner Name, Exhibit');return;}
+    const formData=new FormData();
+    formData.append('type','FORENSIC_REPORT');formData.append('caseNumber',fd.caseNumber);formData.append('exhibitMarkedAs',fd.exhibitMarkedAs);formData.append('metadata',JSON.stringify(fd));
+    if(fileInput.files[0])formData.append('file',fileInput.files[0]);
+    document.getElementById('progressBar').classList.add('show');
+    const fill=document.getElementById('progressFill');let prog=0;
+    const pi=setInterval(()=>{prog=Math.min(prog+10,85);fill.style.width=prog+'%';},200);
+    try{
+      const res=await fetch('/api/upload/submit',{method:'POST',headers:{'Authorization':'Bearer '+token},body:formData});
+      const data=await res.json();clearInterval(pi);fill.style.width='100%';
+      if(!res.ok) throw new Error(data.error);
+      showAlert('Forensic report immutably registered on blockchain!','success');
+      document.getElementById('result-section').style.display='block';
+      document.getElementById('result-content').innerHTML=`<div class="result-box">
+        <div class="result-row"><span class="result-key">Exhibit ID</span><span class="result-val">${data.exhibitId}</span></div>
+        <div class="result-row"><span class="result-key">Block Index</span><span class="result-val">#${data.blockIndex}</span></div>
+        <div class="result-row"><span class="result-key">Block Hash</span><span class="result-val">${data.blockHash}</span></div>
+        ${data.fileHash?`<div class="result-row"><span class="result-key">Document SHA-256</span><span class="result-val">${data.fileHash}</span></div>`:''}
+        <div class="result-row"><span class="result-key">Examiner</span><span class="result-val">${fd.examinerName}</span></div>
+        <div class="result-row"><span class="result-key">Registered At</span><span class="result-val">${new Date(data.submittedAt).toLocaleString('en-IN')}</span></div>
+      </div>
+      <p style="font-size:0.78rem;color:var(--muted);margin-top:0.75rem">This forensic report is now permanently anchored to the blockchain. The block hash above can be used to independently verify the report's authenticity and detect any future tampering.</p>
+      <div style="margin-top:0.75rem;display:flex;gap:0.75rem">
+        <a class="btn btn-outline btn-sm" href="/dashboard.html">📋 Dashboard</a>
+      </div>`;
+    }catch(e){clearInterval(pi);fill.style.width='0';showAlert(e.message);}
+  };
+  window.clearAll=function(){document.querySelectorAll('input:not([type=file]),select,textarea').forEach(el=>{if(el.type==='radio'||el.type==='checkbox')el.checked=false;else el.value='';});preview.classList.remove('show');};
+})();
+</script>
+</body>
+</html>

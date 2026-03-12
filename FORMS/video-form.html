@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Digital Evidence Acquisition Form – Video Evidence</title>
+  <style>
+    :root{--primary:#0d47a1;--accent:#00e676;--success:#00c853;--danger:#d32f2f;--warning:#ffd600;--dark:#0a0e1a;--card:#0f1629;--border:#1e2d55;--text:#e8eaf6;--muted:#8892b0;--input:#111c35;--radius:8px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;}
+    .form-header{background:linear-gradient(135deg,#060c1e,#1a0033);padding:2rem;text-align:center;border-bottom:2px solid var(--accent);}
+    .form-header .emblem{font-size:3rem;margin-bottom:0.5rem;}
+    .form-header h1{font-size:1.3rem;font-weight:700;color:#fff;}
+    .form-header p{font-size:0.85rem;color:var(--muted);margin-top:0.25rem;}
+    .blockchain-badge{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(0,230,118,0.1);border:1px solid var(--accent);border-radius:50px;padding:0.3rem 1rem;font-size:0.75rem;color:var(--accent);margin-top:0.75rem;}
+    .page{max-width:960px;margin:0 auto;padding:2rem;}
+    .section-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;}
+    .section-title{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:1.2rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+    .form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+    .form-group{margin-bottom:0.85rem;}
+    label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.35rem;}
+    input[type="text"],input[type="date"],input[type="time"],input[type="datetime-local"],input[type="number"],select,textarea{width:100%;background:var(--input);border:1px solid var(--border);border-radius:var(--radius);padding:0.6rem 0.9rem;color:var(--text);font-size:0.9rem;outline:none;transition:border-color .2s,box-shadow .2s;font-family:inherit;}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,230,118,.15);}
+    select option{background:var(--input);}
+    textarea{resize:vertical;min-height:70px;}
+    .radio-group{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.4rem;}
+    .r-label,.c-label{display:flex;align-items:center;gap:0.4rem;font-size:0.88rem;cursor:pointer;}
+    input[type="radio"],input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px;}
+    .btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.4rem;border:none;border-radius:var(--radius);font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;}
+    .btn-primary{background:linear-gradient(135deg,#4a148c,#7b1fa2);color:#fff;}
+    .btn-primary:hover{transform:translateY(-1px);}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+    .btn-sm{padding:0.4rem 0.85rem;font-size:0.8rem;}
+    .action-bar{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-top:1rem;}
+    .alert{padding:0.85rem 1rem;border-radius:var(--radius);margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;font-size:0.9rem;}
+    .alert.show{display:flex;}
+    .alert-success{background:rgba(0,200,83,.12);border:1px solid var(--success);color:#69f0ae;}
+    .alert-danger{background:rgba(211,47,47,.15);border:1px solid var(--danger);color:#ff6b6b;}
+    .result-box{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;font-size:0.82rem;}
+    .result-row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(30,45,85,.5);padding:0.4rem 0;}
+    .result-row:last-child{border-bottom:none;}
+    .result-key{color:var(--muted);}
+    .result-val{color:#fff;font-family:monospace;word-break:break-all;text-align:right;max-width:65%;}
+    .back-link{display:inline-flex;align-items:center;gap:0.4rem;color:var(--muted);font-size:0.82rem;margin-bottom:1rem;cursor:pointer;}
+    .back-link:hover{color:var(--accent);}
+    .drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:2.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;}
+    .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:rgba(0,230,118,.04);}
+    .drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .dz-icon{font-size:2.5rem;margin-bottom:0.5rem;}
+    .dz-text{font-size:0.88rem;color:var(--muted);}
+    .dz-types{font-size:0.72rem;color:var(--muted);margin-top:0.3rem;}
+    .file-preview{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-top:0.75rem;display:none;align-items:center;gap:1rem;}
+    .file-preview.show{display:flex;}
+    .progress-bar{width:100%;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:0.5rem;display:none;}
+    .progress-bar.show{display:block;}
+    .progress-fill{height:100%;background:var(--accent);width:0;transition:width .3s;}
+    @media print{body{background:#fff;color:#000;}.section-card{border-color:#ccc;}.no-print{display:none!important;}.form-header{background:#fff;border-bottom:2px solid #000;}input,select,textarea{border:1px solid #999;background:#fff;color:#000;}}
+  </style>
+</head>
+<body>
+
+<div class="form-header">
+  <div class="emblem">🎬</div>
+  <h1>DIGITAL EVIDENCE ACQUISITION FORM</h1>
+  <p>Video Evidence &nbsp;·&nbsp; Cyber Forensics Division</p>
+  <div class="blockchain-badge">⛓ Blockchain-Secured · SHA-256 File Fingerprint</div>
+</div>
+
+<div class="page">
+  <a class="back-link no-print" onclick="history.back()">← Back</a>
+  <div id="alert-box" class="alert"></div>
+
+  <!-- Case Info -->
+  <div class="section-card">
+    <div class="section-title">📋 Case Information</div>
+    <div class="form-row">
+      <div class="form-group"><label>Place *</label><input type="text" id="place" /></div>
+      <div class="form-group"><label>Date *</label><input type="date" id="date" /></div>
+      <div class="form-group"><label>Case Number *</label><input type="text" id="caseNumber" placeholder="CYB/2026/…" /></div>
+      <div class="form-group"><label>Exhibit Marked As *</label><input type="text" id="exhibitMarkedAs" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Source / Location of Recording</label><input type="text" id="recordingLocation" placeholder="CCTV Camera ID, Building, Address…" /></div>
+      <div class="form-group"><label>Chain of Custody Reference</label><input type="text" id="custodyRef" /></div>
+    </div>
+  </div>
+
+  <!-- Recording Device -->
+  <div class="section-card">
+    <div class="section-title">📷 Recording Device / Camera Information</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Device / Camera Type</label>
+        <select id="deviceType">
+          <option value="">-- Select --</option>
+          <option>CCTV / IP Camera</option>
+          <option>DVR / NVR System</option>
+          <option>Dashcam</option>
+          <option>Bodycam / Wearable</option>
+          <option>Smartphone Camera</option>
+          <option>Drone / UAV</option>
+          <option>DSLR / Mirrorless Camera</option>
+          <option>Laptop / Tablet Camera</option>
+          <option>Doorbell Cam (Ring, Nest…)</option>
+          <option>Screen Recording</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Make / Manufacturer</label><input type="text" id="make" /></div>
+      <div class="form-group"><label>Model</label><input type="text" id="model" /></div>
+      <div class="form-group"><label>Serial / Device ID</label><input type="text" id="serial" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Camera Firmware Version</label><input type="text" id="firmware" /></div>
+      <div class="form-group"><label>Storage Medium Used</label><input type="text" id="storageMedium" placeholder="SD Card / HDD / Cloud / DVR internal…" /></div>
+    </div>
+  </div>
+
+  <!-- Video File Details -->
+  <div class="section-card">
+    <div class="section-title">🎬 Video File Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Original File Name</label><input type="text" id="originalFileName" /></div>
+      <div class="form-group">
+        <label>Video Format / Container</label>
+        <select id="videoFormat">
+          <option value="">-- Select --</option>
+          <option>MP4 (MPEG-4)</option><option>AVI</option><option>MOV (QuickTime)</option>
+          <option>MKV (Matroska)</option><option>MPEG / MPG</option><option>WMV</option>
+          <option>FLV / F4V</option><option>3GP / 3G2</option><option>TS / MTS (MPEG Transport)</option>
+          <option>DAV (DVR proprietary)</option><option>H.264 / H.265 Raw</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Video Codec</label><input type="text" id="codec" placeholder="H.264, H.265/HEVC, MPEG-4, VP9…" /></div>
+      <div class="form-group"><label>File Size</label><input type="text" id="fileSize" placeholder="e.g. 1.2 GB" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Resolution</label><input type="text" id="resolution" placeholder="1920×1080 / 3840×2160 / 720×576…" /></div>
+      <div class="form-group"><label>Frame Rate (FPS)</label><input type="text" id="framerate" placeholder="25 fps / 30 fps / 60 fps" /></div>
+      <div class="form-group"><label>Duration</label><input type="text" id="duration" placeholder="e.g. 00:12:45 (hh:mm:ss)" /></div>
+      <div class="form-group">
+        <label>Audio Track Present?</label>
+        <div class="radio-group" style="margin-top:0.6rem">
+          <label class="r-label"><input type="radio" name="audioTrack" value="Yes" /> Yes</label>
+          <label class="r-label"><input type="radio" name="audioTrack" value="No" /> No</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timestamp Verification -->
+  <div class="section-card">
+    <div class="section-title">🕐 Timestamp Verification</div>
+    <div class="form-row">
+      <div class="form-group"><label>Recording Start Date &amp; Time (Embedded)</label><input type="datetime-local" id="recordingStart" /></div>
+      <div class="form-group"><label>Recording End Date &amp; Time (Embedded)</label><input type="datetime-local" id="recordingEnd" /></div>
+      <div class="form-group"><label>Camera Clock Accurate?</label>
+        <div class="radio-group" style="margin-top:0.6rem">
+          <label class="r-label"><input type="radio" name="clockAccurate" value="Yes" /> Yes</label>
+          <label class="r-label"><input type="radio" name="clockAccurate" value="No" /> No – Offset:</label>
+        </div>
+      </div>
+      <div class="form-group"><label>Clock Offset (if any)</label><input type="text" id="clockOffset" placeholder="e.g. +02:45 behind actual time" /></div>
+    </div>
+    <div class="form-group">
+      <label>Video Appears Continuous / Uninterrupted?</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="videoContinuous" value="Yes" /> Yes</label>
+        <label class="r-label"><input type="radio" name="videoContinuous" value="No – Gaps / Cuts Present" /> No – Gaps / Cuts</label>
+        <label class="r-label"><input type="radio" name="videoContinuous" value="Unknown" /> Unknown</label>
+      </div>
+    </div>
+    <div class="form-group"><label>Content Description / Scene Summary</label><textarea id="contentSummary" rows="3" placeholder="Describe key events, persons, locations visible in the video (factual, without personal opinion)…"></textarea></div>
+  </div>
+
+  <!-- Hash / Integrity -->
+  <div class="section-card">
+    <div class="section-title">🔐 Integrity Verification</div>
+    <div class="form-row">
+      <div class="form-group"><label>MD5 Hash</label><input type="text" id="md5Hash" placeholder="32-char MD5" style="font-family:monospace" /></div>
+      <div class="form-group"><label>SHA-256 Hash</label><input type="text" id="sha256Hash" placeholder="64-char SHA-256" style="font-family:monospace" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Acquisition Tool</label><input type="text" id="acquisitionTool" placeholder="FTK Imager, Cellebrite, manual copy…" /></div>
+      <div class="form-group"><label>Write-Blocker Used?</label>
+        <div class="radio-group" style="margin-top:0.6rem">
+          <label class="r-label"><input type="radio" name="writeBlocker" value="Yes" /> Yes</label>
+          <label class="r-label"><input type="radio" name="writeBlocker" value="No" /> No</label>
+          <label class="r-label"><input type="radio" name="writeBlocker" value="N/A – Cloud" /> N/A</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group"><label>Remarks</label><textarea id="remarks" rows="2"></textarea></div>
+  </div>
+
+  <!-- Upload -->
+  <div class="section-card no-print">
+    <div class="section-title">📤 Upload Video File (Max 2 GB)</div>
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept="video/*,.dav,.dvr,.ts,.mts,.m2ts" />
+      <div class="dz-icon">🎬</div>
+      <div class="dz-text">Drag & drop video file here, or click to browse</div>
+      <div class="dz-types">Accepted: MP4, AVI, MOV, MKV, MPEG, WMV, 3GP, TS, DAV…</div>
+    </div>
+    <div class="file-preview" id="filePreview">
+      <div style="font-size:2rem">🎬</div>
+      <div><div id="previewName" style="font-size:0.9rem;font-weight:600"></div><div id="previewMeta" style="font-size:0.75rem;color:var(--muted)"></div></div>
+    </div>
+    <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="section-card no-print">
+    <div class="section-title">✍️ Examiner Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Name &amp; Designation</label><input type="text" id="expertName" /></div>
+      <div class="form-group"><label>Badge / ID</label><input type="text" id="expertBadge" /></div>
+    </div>
+  </div>
+
+  <div class="action-bar no-print">
+    <button class="btn btn-primary" onclick="submitToBlockchain()">⛓ Submit to Blockchain</button>
+    <button class="btn btn-outline" onclick="window.print()">🖨️ Print Form</button>
+    <button class="btn btn-outline" onclick="clearAll()">🔄 Clear</button>
+    <a class="btn btn-outline" href="/dashboard.html">⬅️ Dashboard</a>
+  </div>
+
+  <div id="result-section" style="display:none;margin-top:1.5rem">
+    <div class="section-card">
+      <div class="section-title">⛓ Blockchain Registration Confirmation</div>
+      <div id="result-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const token=sessionStorage.getItem('dems_token');
+  document.getElementById('date').valueAsDate=new Date();
+  const fileInput=document.getElementById('fileInput');const dropZone=document.getElementById('dropZone');const preview=document.getElementById('filePreview');
+  function showPreview(f){document.getElementById('previewName').textContent=f.name;document.getElementById('previewMeta').textContent=`${(f.size/1024/1024).toFixed(2)} MB · ${f.type||'unknown'}`;preview.classList.add('show');document.getElementById('originalFileName').value=f.name;document.getElementById('fileSize').value=(f.size/1024/1024).toFixed(2)+' MB';}
+  fileInput.addEventListener('change',()=>{if(fileInput.files[0])showPreview(fileInput.files[0]);});
+  dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover');});
+  dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
+  dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragover');const f=e.dataTransfer.files[0];if(f){fileInput.files=e.dataTransfer.files;showPreview(f);}});
+  function showAlert(msg,type='danger'){const el=document.getElementById('alert-box');el.className=`alert alert-${type} show`;el.innerHTML=(type==='success'?'✅':'❌')+' '+msg;el.scrollIntoView({behavior:'smooth'});}
+  function g(id){const el=document.getElementById(id);return el?el.value:'';}
+  function radio(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'';}
+  window.submitToBlockchain=async function(){
+    if(!token){alert('Please login');window.location.href='/';return;}
+    const fd={place:g('place'),date:g('date'),caseNumber:g('caseNumber'),exhibitMarkedAs:g('exhibitMarkedAs'),
+      recordingLocation:g('recordingLocation'),custodyRef:g('custodyRef'),
+      deviceType:g('deviceType'),make:g('make'),model:g('model'),serial:g('serial'),firmware:g('firmware'),storageMedium:g('storageMedium'),
+      originalFileName:g('originalFileName'),videoFormat:g('videoFormat'),codec:g('codec'),fileSize:g('fileSize'),
+      resolution:g('resolution'),framerate:g('framerate'),duration:g('duration'),audioTrack:radio('audioTrack'),
+      recordingStart:g('recordingStart'),recordingEnd:g('recordingEnd'),clockAccurate:radio('clockAccurate'),clockOffset:g('clockOffset'),
+      videoContinuous:radio('videoContinuous'),contentSummary:g('contentSummary'),
+      md5Hash:g('md5Hash'),sha256Hash:g('sha256Hash'),acquisitionTool:g('acquisitionTool'),writeBlocker:radio('writeBlocker'),remarks:g('remarks'),
+      expertName:g('expertName'),expertBadge:g('expertBadge'),
+    };
+    if(!fd.place||!fd.date||!fd.caseNumber||!fd.exhibitMarkedAs){showAlert('Fill required fields');return;}
+    const formData=new FormData();
+    formData.append('type','VIDEO_EVIDENCE');formData.append('caseNumber',fd.caseNumber);formData.append('exhibitMarkedAs',fd.exhibitMarkedAs);formData.append('metadata',JSON.stringify(fd));
+    if(fileInput.files[0])formData.append('file',fileInput.files[0]);
+    document.getElementById('progressBar').classList.add('show');
+    const fill=document.getElementById('progressFill');let prog=0;
+    const pi=setInterval(()=>{prog=Math.min(prog+5,85);fill.style.width=prog+'%';},300);
+    try{
+      const res=await fetch('/api/upload/submit',{method:'POST',headers:{'Authorization':'Bearer '+token},body:formData});
+      const data=await res.json();clearInterval(pi);fill.style.width='100%';
+      if(!res.ok) throw new Error(data.error);
+      showAlert('Video evidence registered on blockchain!','success');
+      document.getElementById('result-section').style.display='block';
+      document.getElementById('result-content').innerHTML=`<div class="result-box">
+        <div class="result-row"><span class="result-key">Exhibit ID</span><span class="result-val">${data.exhibitId}</span></div>
+        <div class="result-row"><span class="result-key">Block Index</span><span class="result-val">#${data.blockIndex}</span></div>
+        <div class="result-row"><span class="result-key">Block Hash</span><span class="result-val">${data.blockHash}</span></div>
+        ${data.fileHash?`<div class="result-row"><span class="result-key">File SHA-256</span><span class="result-val">${data.fileHash}</span></div>`:''}
+        <div class="result-row"><span class="result-key">Timestamp</span><span class="result-val">${new Date(data.submittedAt).toLocaleString('en-IN')}</span></div>
+      </div>
+      <div style="margin-top:0.75rem;display:flex;gap:0.75rem">
+        <a class="btn btn-outline btn-sm" href="/dashboard.html">📋 Dashboard</a>
+      </div>`;
+    }catch(e){clearInterval(pi);fill.style.width='0';showAlert(e.message);}
+  };
+  window.clearAll=function(){document.querySelectorAll('input:not([type=file]),select,textarea').forEach(el=>{if(el.type==='radio'||el.type==='checkbox')el.checked=false;else el.value='';});preview.classList.remove('show');};
+})();
+</script>
+</body>
+</html>

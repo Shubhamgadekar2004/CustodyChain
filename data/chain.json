@@ -1,0 +1,232 @@
+[
+  {
+    "index": 0,
+    "timestamp": "2026-03-12T08:05:04.999Z",
+    "evidenceData": {
+      "type": "GENESIS",
+      "message": "Digital Evidence Management Blockchain – Initialized",
+      "agency": "Cyber Forensics Division",
+      "version": "1.0.0"
+    },
+    "previousHash": "0",
+    "hash": "0008589b11e8807f160c53637ca75428e266c9ddfaafba2047811b81cbd8c623",
+    "nonce": 1221,
+    "blockId": "830f62e3-ed85-4b5e-8c61-a38b09022f90",
+    "minedBy": "SYSTEM",
+    "transactions": [],
+    "merkleRoot": ""
+  },
+  {
+    "index": 1,
+    "timestamp": "2026-03-12T08:06:44.569Z",
+    "evidenceData": {
+      "type": "PHONE_TAB_IPAD",
+      "caseNumber": "CYB/2026/001",
+      "exhibitMarkedAs": "A1",
+      "exhibitId": "EX-FF78865C",
+      "formData": {
+        "make": "Apple",
+        "model": "iPhone15",
+        "imei1": "123456789012345"
+      },
+      "dataHash": "b603e3c7e164aade0ab70ae3a91b1849ff94cdc89dc0819afeae5e4dd0718aeb",
+      "submittedBy": "admin",
+      "submittedByRole": "ADMIN",
+      "submittedByBadge": "ADM-001",
+      "submittedAt": "2026-03-12T08:06:44.569Z",
+      "ipAddress": "::1",
+      "status": "APPROVED",
+      "approvedBy": "admin",
+      "approvedAt": "2026-03-12T09:50:52.165Z"
+    },
+    "previousHash": "0008589b11e8807f160c53637ca75428e266c9ddfaafba2047811b81cbd8c623",
+    "hash": "d7a1c4e213f0657dc55b7e265ccc06d581a664fa632375f61b7cdc560cebc18a",
+    "nonce": 1200,
+    "blockId": "31177b1a-8817-4fb9-8358-92437d178e98",
+    "minedBy": "admin",
+    "transactions": [
+      {
+        "action": "INITIAL_SUBMISSION",
+        "actor": "admin",
+        "role": "ADMIN",
+        "badge": "ADM-001",
+        "note": "Evidence submitted and registered on blockchain",
+        "txId": "b88259bf-58d2-4053-ae63-96ed74ac517a",
+        "txTime": "2026-03-12T08:06:44.582Z"
+      },
+      {
+        "action": "TRANSFER",
+        "actor": "admin",
+        "role": "ADMIN",
+        "badge": "ADM-001",
+        "note": "transfer to FS",
+        "txId": "84ae1f69-882c-466d-b83d-d806bf1b193f",
+        "txTime": "2026-03-12T09:49:50.983Z"
+      },
+      {
+        "action": "APPROVED",
+        "actor": "admin",
+        "role": "ADMIN",
+        "note": "Approved by System Administrator",
+        "txId": "93009a1b-457c-4bf8-9de2-cd2771843dbc",
+        "txTime": "2026-03-12T09:50:52.165Z"
+      }
+    ],
+    "merkleRoot": "3a8ebf4d87ebc7e64fd1fa7653a34eced77501e35935306891d0f7f004193d78"
+  },
+  {
+    "index": 2,
+    "timestamp": "2026-03-12T08:07:15.227Z",
+    "evidenceData": {
+      "type": "PHONE_TAB_IPAD",
+      "caseNumber": "CYB/2026/001",
+      "exhibitMarkedAs": "A1",
+      "exhibitId": "EX-327948CD",
+      "formData": {
+        "make": "Apple",
+        "model": "iPhone 15 Pro",
+        "imei1": "351234567890123",
+        "serialNumber": "DNQT9XXXX",
+        "os": "iOS 17.3"
+      },
+      "dataHash": "da5c3b394cef925296f46dbdf03427b1c24f34aacf724bdea037742f9fbf0aa1",
+      "submittedBy": "admin",
+      "submittedByRole": "ADMIN",
+      "submittedByBadge": "ADM-001",
+      "submittedAt": "2026-03-12T08:07:15.227Z",
+      "ipAddress": "::1",
+      "status": "SUBMITTED"
+    },
+    "previousHash": "2abbf8bd1addf6b55b30f539b6fe84d1b6c77cbd807736cc9e82d0db5f4b8df4",
+    "hash": "1e6f6f08b1ac4b7630823a785a3f012a83ca18a35b87f69af0e84f2e3ea3b6da",
+    "nonce": 652,
+    "blockId": "f8af94d9-4e9f-4b3c-9b3a-a50cbfdcbef0",
+    "minedBy": "admin",
+    "transactions": [
+      {
+        "action": "INITIAL_SUBMISSION",
+        "actor": "admin",
+        "role": "ADMIN",
+        "badge": "ADM-001",
+        "note": "Evidence submitted and registered on blockchain",
+        "txId": "62513703-c930-4df2-b425-c61d971abece",
+        "txTime": "2026-03-12T08:07:15.233Z"
+      }
+    ],
+    "merkleRoot": "c77a5ce2ac9ad3b34fcf7ccade022c6226782f9708bd2af9041253e521bdaa75"
+  },
+  {
+    "index": 3,
+    "timestamp": "2026-03-12T08:07:29.315Z",
+    "evidenceData": {
+      "type": "PHONE_TAB_IPAD",
+      "caseNumber": "CYB/2026/TEST",
+      "exhibitMarkedAs": "T1",
+      "exhibitId": "EX-236579BA",
+      "formData": {
+        "make": "Samsung",
+        "model": "Galaxy S24",
+        "imei1": "352000001234567"
+      },
+      "dataHash": "29b0e4ba5302234b1c13931a143b15257c1839c1d8bfa79c6d6485e3b881a75f",
+      "submittedBy": "admin",
+      "submittedByRole": "ADMIN",
+      "submittedByBadge": "ADM-001",
+      "submittedAt": "2026-03-12T08:07:29.315Z",
+      "ipAddress": "::1",
+      "status": "SUBMITTED"
+    },
+    "previousHash": "1e6f6f08b1ac4b7630823a785a3f012a83ca18a35b87f69af0e84f2e3ea3b6da",
+    "hash": "d6e49df82ffe4eba7abba64660820d9ee85b1ff404a98404009972da0b8956d7",
+    "nonce": 2136,
+    "blockId": "37b7d22d-2a78-4fec-8eee-81cabc2416e2",
+    "minedBy": "admin",
+    "transactions": [
+      {
+        "action": "INITIAL_SUBMISSION",
+        "actor": "admin",
+        "role": "ADMIN",
+        "badge": "ADM-001",
+        "note": "Evidence submitted and registered on blockchain",
+        "txId": "e4d96d26-5571-40d6-80ca-5a4233765c64",
+        "txTime": "2026-03-12T08:07:29.330Z"
+      }
+    ],
+    "merkleRoot": "2e1840d64c289f03f9125e84f907779d244c4882194315ab7d95bcb7780311f6"
+  },
+  {
+    "index": 4,
+    "timestamp": "2026-03-12T09:54:10.844Z",
+    "evidenceData": {
+      "type": "IMAGE_EVIDENCE",
+      "caseNumber": "CYB/2026/04",
+      "exhibitMarkedAs": "A1",
+      "exhibitId": "EX-54B9172D",
+      "formData": {
+        "place": "ponda",
+        "date": "2026-03-12",
+        "caseNumber": "CYB/2026/04",
+        "exhibitMarkedAs": "A1",
+        "source": "camera",
+        "originalFileName": "Fingerprint_Arch-3740773965.jpg",
+        "imageFormat": "JPEG / JPG",
+        "fileSize": "0.02 MB",
+        "resolution": "",
+        "bitDepth": "",
+        "colorSpace": "",
+        "compression": "",
+        "cameraMake": "",
+        "exifDateTime": "",
+        "gpsLat": "",
+        "gpsLon": "",
+        "gpsAlt": "",
+        "softwareExif": "",
+        "exifIntact": "",
+        "exifNotes": "",
+        "md5Hash": "",
+        "sha256Hash": "",
+        "imageModified": "",
+        "steganography": "",
+        "sourceType": "",
+        "acquisitionTool": "",
+        "acquisitionDateTime": "",
+        "remarks": "",
+        "expertName": "",
+        "expertBadge": ""
+      },
+      "fileInfo": {
+        "originalName": "Fingerprint_Arch-3740773965.jpg",
+        "storedName": "85c9cc9d-3484-4123-b667-0f8b62bd100c.jpg",
+        "mimeType": "image/jpeg",
+        "sizeBytes": 18235,
+        "sizeFormatted": "17.81 KB",
+        "sha256": "00a62923759e5190bc63e255b493e95d514e2b223bae6b6669dce5ed38afc528",
+        "uploadedAt": "2026-03-12T09:54:10.843Z",
+        "storedPath": "00a62923759e_85c9cc9d-3484-4123-b667-0f8b62bd100c.jpg"
+      },
+      "submittedBy": "admin",
+      "submittedByRole": "ADMIN",
+      "submittedByBadge": "ADM-001",
+      "submittedAt": "2026-03-12T09:54:10.843Z",
+      "ipAddress": "::ffff:127.0.0.1",
+      "status": "SUBMITTED"
+    },
+    "previousHash": "d6e49df82ffe4eba7abba64660820d9ee85b1ff404a98404009972da0b8956d7",
+    "hash": "281cc8dc3f1518e1861c86b7ee0ba4b75fc6174b9e0b62d30a264e9d30098de9",
+    "nonce": 3235,
+    "blockId": "c4559275-219b-4a11-9d6a-743838e47eb3",
+    "minedBy": "admin",
+    "transactions": [
+      {
+        "action": "INITIAL_FILE_SUBMISSION",
+        "actor": "admin",
+        "role": "ADMIN",
+        "badge": "ADM-001",
+        "note": "File submitted: Fingerprint_Arch-3740773965.jpg (SHA-256: 00a62923759e5190…)",
+        "txId": "fafd7431-0eb1-4761-886a-82eab2ee3dfe",
+        "txTime": "2026-03-12T09:54:10.888Z"
+      }
+    ],
+    "merkleRoot": "ef86677297038d8302aeb5b278703905c43a81990c3537fd076449f26dc0b2a3"
+  }
+]

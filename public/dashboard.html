@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEMS Dashboard | Digital Evidence Management System</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>"/>
+</head>
+<body>
+
+<div class="app-layout" id="app">
+
+  <!-- ══════════════ SIDEBAR ══════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">🔗</span>
+      <div class="logo-text">
+        DEMS Blockchain<br/>
+        <small>Evidence Management v1.0</small>
+      </div>
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar" id="sb-avatar">?</div>
+      <div class="user-info">
+        <div class="name" id="sb-name">Loading…</div>
+        <div class="role-badge" id="sb-role">—</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Overview</div>
+      <div class="nav-item active" data-section="dashboard">
+        <span class="nav-icon">🏠</span> Dashboard
+      </div>
+
+      <div class="nav-section-title">Evidence</div>
+      <div class="nav-item" data-section="submit-evidence" data-perm="SUBMIT_EVIDENCE">
+        <span class="nav-icon">➕</span> Submit Evidence
+      </div>
+      <div class="nav-item" data-section="my-evidence" data-perm="VIEW_OWN_EVIDENCE">
+        <span class="nav-icon">📁</span> My Evidence
+      </div>
+      <div class="nav-item" data-section="all-evidence" data-perm="VIEW_ALL_EVIDENCE">
+        <span class="nav-icon">📋</span> All Evidence
+      </div>
+      <div class="nav-item" data-section="case-search">
+        <span class="nav-icon">🔍</span> Case Search
+      </div>
+
+      <div class="nav-section-title">Media Evidence Forms</div>
+      <div class="nav-item" onclick="window.open('../FORMS/image-form.html','_blank')">
+        <span class="nav-icon">🖼️</span> Image Evidence
+      </div>
+      <div class="nav-item" onclick="window.open('../FORMS/audio-form.html','_blank')">
+        <span class="nav-icon">🎵</span> Audio File
+      </div>
+      <div class="nav-item" onclick="window.open('../FORMS/logfile-form.html','_blank')">
+        <span class="nav-icon">📋</span> Log File
+      </div>
+      <div class="nav-item" onclick="window.open('../FORMS/video-form.html','_blank')">
+        <span class="nav-icon">🎬</span> Video Evidence
+      </div>
+      <div class="nav-item" onclick="window.open('../FORMS/forensic-report-form.html','_blank')">
+        <span class="nav-icon">📑</span> Forensic Report
+      </div>
+
+      <div class="nav-section-title">Blockchain</div>
+      <div class="nav-item" data-section="blockchain-explorer" data-perm="VIEW_BLOCKCHAIN">
+        <span class="nav-icon">⛓</span> Chain Explorer
+      </div>
+      <div class="nav-item" data-section="chain-validate" data-perm="VALIDATE_CHAIN">
+        <span class="nav-icon">✅</span> Validate Chain
+      </div>
+      <div class="nav-item" data-section="audit-log" data-perm="VIEW_AUDIT_LOG">
+        <span class="nav-icon">📊</span> Audit Log
+      </div>
+
+      <div class="nav-section-title">Administration</div>
+      <div class="nav-item" data-section="user-management" data-perm="MANAGE_USERS">
+        <span class="nav-icon">👥</span> User Management
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      🔐 Secured by Blockchain<br/>
+      Session logged & monitored
+    </div>
+  </aside>
+
+  <!-- ══════════════ MAIN AREA ══════════════ -->
+  <div class="main-area">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:1rem">
+        <button onclick="document.getElementById('sidebar').classList.toggle('open')"
+          style="display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer" id="hamburger">☰</button>
+        <span class="topbar-title" id="page-title">Dashboard</span>
+      </div>
+      <div class="topbar-actions">
+        <div class="chain-status" id="chain-status-indicator">
+          <div class="dot"></div> Chain: Validating…
+        </div>
+        <span class="text-muted text-sm" id="topbar-badge"></span>
+        <button class="btn btn-outline btn-sm" onclick="logout()">🚪 Logout</button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="content">
+
+      <!-- ── DASHBOARD ────────────────────────────────────────────── -->
+      <section class="page-section active" id="sec-dashboard">
+        <div class="stat-grid" id="stat-grid">
+          <div class="stat-card"><div class="stat-icon blue">⛓</div><div><div class="stat-value" id="stat-blocks">—</div><div class="stat-label">Total Blocks</div></div></div>
+          <div class="stat-card"><div class="stat-icon green">📂</div><div><div class="stat-value" id="stat-evidence">—</div><div class="stat-label">Evidence Records</div></div></div>
+          <div class="stat-card"><div class="stat-icon yellow">📱</div><div><div class="stat-value" id="stat-phone">—</div><div class="stat-label">Mobile Devices</div></div></div>
+          <div class="stat-card"><div class="stat-icon red">💻</div><div><div class="stat-value" id="stat-desktop">—</div><div class="stat-label">Computers</div></div></div>
+          <div class="stat-card"><div class="stat-icon purple">💾</div><div><div class="stat-value" id="stat-storage">—</div><div class="stat-label">Storage Media</div></div></div>
+          <div class="stat-card"><div class="stat-icon green">🖼️</div><div><div class="stat-value" id="stat-image">—</div><div class="stat-label">Image Evidence</div></div></div>
+          <div class="stat-card"><div class="stat-icon yellow">🎵</div><div><div class="stat-value" id="stat-audio">—</div><div class="stat-label">Audio Files</div></div></div>
+          <div class="stat-card"><div class="stat-icon blue">📋</div><div><div class="stat-value" id="stat-log">—</div><div class="stat-label">Log Files</div></div></div>
+          <div class="stat-card"><div class="stat-icon red">🎬</div><div><div class="stat-value" id="stat-video">—</div><div class="stat-label">Video Evidence</div></div></div>
+          <div class="stat-card"><div class="stat-icon purple">📑</div><div><div class="stat-value" id="stat-report">—</div><div class="stat-label">Forensic Reports</div></div></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;flex-wrap:wrap">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">🔐 Chain Integrity</span>
+            </div>
+            <div id="integrity-panel" style="text-align:center;padding:1rem">
+              <div class="loader" style="width:32px;height:32px;border-width:3px;margin:auto"></div>
+              <div class="text-muted text-sm mt-2">Validating blockchain…</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📈 Recent Activity</span>
+            </div>
+            <div id="recent-activity"><div class="text-muted text-sm">Loading…</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SUBMIT EVIDENCE ───────────────────────────────────────── -->
+      <section class="page-section" id="sec-submit-evidence">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">➕ Submit Digital Evidence</span>
+          </div>
+
+          <!-- Evidence Type Selector -->
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">📦 Device / Physical Evidence</p>
+          <div style="display:flex;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="selectEvidenceType('PHONE_TAB_IPAD',this)">📱 Phone / Tab / iPad</button>
+            <button class="btn btn-outline" onclick="selectEvidenceType('DESKTOP_LAPTOP_SERVER',this)">💻 Desktop / Laptop / Server</button>
+            <button class="btn btn-outline" onclick="selectEvidenceType('EXTERNAL_STORAGE',this)">💾 External Storage Media</button>
+          </div>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">🗂️ Digital Media &amp; File Evidence (Dedicated Forms)</p>
+          <div style="display:flex;gap:0.75rem;margin-bottom:2rem;flex-wrap:wrap">
+            <a href="../FORMS/image-form.html" target="_blank" class="btn btn-outline" style="text-decoration:none">🖼️ Image Evidence</a>
+            <a href="../FORMS/audio-form.html" target="_blank" class="btn btn-outline" style="text-decoration:none">🎵 Audio File</a>
+            <a href="../FORMS/logfile-form.html" target="_blank" class="btn btn-outline" style="text-decoration:none">📋 Log File</a>
+            <a href="../FORMS/video-form.html" target="_blank" class="btn btn-outline" style="text-decoration:none">🎬 Video Evidence</a>
+            <a href="../FORMS/forensic-report-form.html" target="_blank" class="btn btn-outline" style="border-color:#ffd600;color:#ffd600;text-decoration:none">📑 Forensic Report</a>
+          </div>
+
+          <div id="alert-submit" class="alert"></div>
+
+          <!-- Phone Form -->
+          <form id="form-PHONE_TAB_IPAD" class="evidence-form" style="display:none">
+            <div class="form-section">
+              <div class="form-section-title">📋 Case Information</div>
+              <div class="form-row">
+                <div class="form-group"><label>Place of Seizure *</label><input name="place" required placeholder="City / Location" /></div>
+                <div class="form-group"><label>Date *</label><input name="date" type="date" required /></div>
+                <div class="form-group"><label>Case Number *</label><input name="caseNumber" required placeholder="CYB/2026/…" /></div>
+                <div class="form-group"><label>Exhibit Marked As *</label><input name="exhibitMarkedAs" required placeholder="A1, B2…" /></div>
+              </div>
+              <div class="form-group"><label>Exhibit Seized From (Possession of)</label><input name="seizedFrom" placeholder="Name / Address of suspect" /></div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">📱 Device Details</div>
+              <div class="form-row">
+                <div class="form-group"><label>Make</label><input name="make" placeholder="Apple, Samsung…" /></div>
+                <div class="form-group"><label>Model</label><input name="model" placeholder="iPhone 15, Galaxy S24…" /></div>
+                <div class="form-group"><label>Mobile Type</label><input name="mobileType" placeholder="Smartphone / Tablet / iPad" /></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>Time Zone Settings</label><input name="timezone" value="GMT +5:30 Asia Pacific" /></div>
+                <div class="form-group"><label>Date/Time on Mobile Device</label><input name="deviceDateTime" type="datetime-local" /></div>
+                <div class="form-group"><label>Actual Date/Time</label><input name="actualDateTime" type="datetime-local" /></div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">🔐 Security & Identity</div>
+              <div class="form-row">
+                <div class="form-group"><label>Password / Pattern / PIN Details</label><input name="passwordDetails" placeholder="PIN / Pattern / Face ID / None" /></div>
+                <div class="form-group"><label>IMEI Number 1</label><input name="imei1" maxlength="15" placeholder="15-digit IMEI" /></div>
+                <div class="form-group"><label>IMEI Number 2 (if dual SIM)</label><input name="imei2" maxlength="15" placeholder="15-digit IMEI" /></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>Mobile Serial Number</label><input name="serialNumber" /></div>
+                <div class="form-group"><label>Operating System &amp; Version</label><input name="os" placeholder="iOS 17, Android 14…" /></div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">📶 SIM Card Details</div>
+              <div class="form-group">
+                <label>Is SIM Card Present?</label>
+                <div class="radio-group">
+                  <label class="radio-label"><input type="radio" name="simPresent" value="Yes" /> Yes</label>
+                  <label class="radio-label"><input type="radio" name="simPresent" value="No" /> No</label>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>Carrier Name</label><input name="simCarrier" placeholder="Airtel / Jio / BSNL…" /></div>
+                <div class="form-group"><label>ICCID</label><input name="iccid" placeholder="19–20 digit ICCID" /></div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">💾 External SD Card</div>
+              <div class="form-group">
+                <label>Is External SD Card Present?</label>
+                <div class="radio-group">
+                  <label class="radio-label"><input type="radio" name="sdPresent" value="Yes" /> Yes</label>
+                  <label class="radio-label"><input type="radio" name="sdPresent" value="No" /> No</label>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>SD Card Make</label><input name="sdMake" /></div>
+                <div class="form-group"><label>SD Card Serial No.</label><input name="sdSerial" /></div>
+                <div class="form-group"><label>Capacity</label><input name="sdCapacity" placeholder="32GB / 128GB…" /></div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">🛡️ Encryption &amp; Imaging</div>
+              <div class="form-group"><label>Encryption / Hidden Storage Applications (if any)</label><textarea name="encryptionDetails" rows="2" placeholder="App names, vault details…"></textarea></div>
+              <div class="form-group"><label>Details of Imaging Software Used</label><input name="imagingSoftware" placeholder="Cellebrite UFED / Oxygen Forensic / MSAB XRY…" /></div>
+              <div class="form-group"><label>Signature of Technical / Forensic Expert</label><input name="expertSignature" placeholder="Name &amp; Designation" /></div>
+            </div>
+          </form>
+
+          <!-- Desktop/Laptop Form -->
+          <form id="form-DESKTOP_LAPTOP_SERVER" class="evidence-form" style="display:none">
+            <div class="form-section">
+              <div class="form-section-title">📋 Case Information</div>
+              <div class="form-row">
+                <div class="form-group"><label>Place *</label><input name="place" required /></div>
+                <div class="form-group"><label>Date *</label><input name="date" type="date" required /></div>
+                <div class="form-group"><label>Case Number *</label><input name="caseNumber" required /></div>
+                <div class="form-group"><label>Exhibit Marked As *</label><input name="exhibitMarkedAs" required /></div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">💻 Device Details</div>
+              <div class="form-row">
+                <div class="form-group"><label>Make</label><input name="make" placeholder="Dell, HP, Lenovo…" /></div>
+                <div class="form-group"><label>Model</label><input name="model" /></div>
+                <div class="form-group"><label>Serial Number</label><input name="serialNumber" /></div>
+                <div class="form-group"><label>Model Number</label><input name="modelNumber" /></div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">🔌 Power State at Seizure</div>
+              <div class="form-group">
+                <div class="radio-group">
+                  <label class="radio-label"><input type="radio" name="powerState" value="ON" /> ON</label>
+                  <label class="radio-label"><input type="radio" name="powerState" value="OFF" /> OFF</label>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>BIOS Date</label><input name="biosDate" type="date" /></div>
+                <div class="form-group"><label>BIOS Time</label><input name="biosTime" type="time" /></div>
+              </div>
+              <div class="form-group">
+                <label>Encryption Found?</label>
+                <div class="radio-group">
+                  <label class="radio-label"><input type="radio" name="encryptionFound" value="YES" /> YES</label>
+                  <label class="radio-label"><input type="radio" name="encryptionFound" value="NO" /> NO</label>
+                </div>
+              </div>
+              <div class="form-group"><label>Remarks</label><textarea name="remarks" rows="2"></textarea></div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">⚙️ Action Taken (System State: ON)</div>
+              <div class="checkbox-grid">
+                <label class="check-label"><input type="checkbox" name="actionNormalShutdown" /> Normal Shutdown</label>
+                <label class="check-label"><input type="checkbox" name="actionForcedShutdown" /> Forced Shutdown</label>
+                <label class="check-label"><input type="checkbox" name="actionRemovePower" /> Remove Power Cable from CPU</label>
+                <label class="check-label"><input type="checkbox" name="actionForensicSW" /> Forensic S/W Used</label>
+              </div>
+              <div class="form-group mt-2"><label>Forensic Software Name (if used)</label><input name="forensicSW" /></div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">⚙️ Action Taken (System State: OFF)</div>
+              <div class="checkbox-grid">
+                <label class="check-label"><input type="checkbox" name="actionRemoveHDD" /> Remove Hard Disk Directly</label>
+                <label class="check-label"><input type="checkbox" name="actionBootCD" /> Boot Using Bootable CD/USB</label>
+                <label class="check-label"><input type="checkbox" name="actionNetworkCable" /> Used Network Crossover Cable</label>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">🗄️ Suspect HDD / SSD Details</div>
+              <div class="form-row">
+                <div class="form-group"><label>Make</label><input name="hddMake" /></div>
+                <div class="form-group"><label>Model</label><input name="hddModel" /></div>
+                <div class="form-group"><label>Serial Number</label><input name="hddSerial" /></div>
+                <div class="form-group"><label>Capacity</label><input name="hddCapacity" placeholder="1TB / 512GB…" /></div>
+              </div>
+              <div class="form-group">
+                <label>Interface Type</label>
+                <div class="checkbox-grid">
+                  <label class="check-label"><input type="checkbox" name="ifIDE" /> IDE</label>
+                  <label class="check-label"><input type="checkbox" name="ifSATA" /> SATA</label>
+                  <label class="check-label"><input type="checkbox" name="ifATA" /> ATA</label>
+                  <label class="check-label"><input type="checkbox" name="ifSCSI" /> SCSI</label>
+                  <label class="check-label"><input type="checkbox" name="ifUSB" /> USB</label>
+                  <label class="check-label"><input type="checkbox" name="ifOther" /> Other</label>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- External Storage Form -->
+          <form id="form-EXTERNAL_STORAGE" class="evidence-form" style="display:none">
+            <div class="form-section">
+              <div class="form-section-title">📋 Case Information</div>
+              <div class="form-row">
+                <div class="form-group"><label>Place *</label><input name="place" required /></div>
+                <div class="form-group"><label>Date *</label><input name="date" type="date" required /></div>
+                <div class="form-group"><label>Case Number *</label><input name="caseNumber" required /></div>
+                <div class="form-group"><label>Exhibit Marked As *</label><input name="exhibitMarkedAs" required /></div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">💾 External Storage Media Details</div>
+              <div class="form-row">
+                <div class="form-group"><label>Make</label><input name="make" placeholder="SanDisk, Seagate, WD…" /></div>
+                <div class="form-group"><label>Model</label><input name="model" /></div>
+                <div class="form-group"><label>Serial Number</label><input name="serialNumber" /></div>
+                <div class="form-group"><label>Capacity</label><input name="capacity" placeholder="512GB / 2TB…" /></div>
+              </div>
+              <div class="form-group">
+                <label>Interface Type</label>
+                <div class="checkbox-grid">
+                  <label class="check-label"><input type="checkbox" name="ifIDE" /> IDE</label>
+                  <label class="check-label"><input type="checkbox" name="ifSATA" /> SATA</label>
+                  <label class="check-label"><input type="checkbox" name="ifATA" /> ATA</label>
+                  <label class="check-label"><input type="checkbox" name="ifSCSI" /> SCSI</label>
+                  <label class="check-label"><input type="checkbox" name="ifUSB" /> USB</label>
+                  <label class="check-label"><input type="checkbox" name="ifOther" /> Other</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">🖥️ Imaging / Cloning Details</div>
+              <div class="form-group"><label>S/W or H/W Used for Imaging / Cloning</label><input name="imagingTool" placeholder="FTK Imager / dd / Tableau T35…" /></div>
+              <div class="form-row">
+                <div class="form-group"><label>Start Date &amp; Time</label><input name="startDateTime" type="datetime-local" /></div>
+                <div class="form-group"><label>End Date &amp; Time</label><input name="endDateTime" type="datetime-local" /></div>
+                <div class="form-group"><label>Time Taken for Imaging</label><input name="timeTaken" placeholder="2h 30m" /></div>
+              </div>
+              <div class="form-group"><label>Remarks</label><textarea name="remarks" rows="3"></textarea></div>
+            </div>
+          </form>
+
+          <!-- Submit Button (shown once type selected) -->
+          <div id="submit-btn-area" style="display:none;margin-top:1.5rem">
+            <button class="btn btn-primary btn-lg" onclick="submitEvidence()">
+              ⛓ Register on Blockchain
+            </button>
+            <button class="btn btn-outline" style="margin-left:1rem" onclick="resetForm()">
+              🔄 Reset Form
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── MY EVIDENCE ────────────────────────────────────────────── -->
+      <section class="page-section" id="sec-my-evidence">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📁 My Submitted Evidence</span>
+            <button class="btn btn-outline btn-sm" onclick="loadMyEvidence()">🔄 Refresh</button>
+          </div>
+          <div id="my-evidence-content"><div class="text-muted">Loading…</div></div>
+        </div>
+      </section>
+
+      <!-- ── ALL EVIDENCE ───────────────────────────────────────────── -->
+      <section class="page-section" id="sec-all-evidence">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📋 All Evidence Records</span>
+            <button class="btn btn-outline btn-sm" onclick="loadAllEvidence()">🔄 Refresh</button>
+          </div>
+          <div id="all-evidence-content"><div class="text-muted">Loading…</div></div>
+        </div>
+      </section>
+
+      <!-- ── CASE SEARCH ────────────────────────────────────────────── -->
+      <section class="page-section" id="sec-case-search">
+        <div class="card">
+          <div class="card-header"><span class="card-title">🔍 Search by Case Number</span></div>
+          <div style="display:flex;gap:1rem;margin-bottom:1.5rem">
+            <input id="case-search-input" class="form-group" style="flex:1;margin:0"
+              placeholder="Enter Case Number e.g. CYB/2026/001" />
+            <button class="btn btn-primary" onclick="searchCase()">Search</button>
+          </div>
+          <div id="case-search-results"></div>
+        </div>
+      </section>
+
+      <!-- ── BLOCKCHAIN EXPLORER ────────────────────────────────────── -->
+      <section class="page-section" id="sec-blockchain-explorer">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">⛓ Blockchain Explorer</span>
+            <button class="btn btn-outline btn-sm" onclick="loadChain()">🔄 Refresh</button>
+          </div>
+          <div id="chain-content"><div class="text-muted">Loading chain…</div></div>
+        </div>
+      </section>
+
+      <!-- ── VALIDATE CHAIN ─────────────────────────────────────────── -->
+      <section class="page-section" id="sec-chain-validate">
+        <div class="card">
+          <div class="card-header"><span class="card-title">✅ Blockchain Integrity Validator</span></div>
+          <div style="text-align:center;padding:2rem">
+            <div style="font-size:3rem;margin-bottom:1rem">🔐</div>
+            <p class="text-muted" style="margin-bottom:1.5rem">Run a full cryptographic validation of the entire blockchain to detect any tampering or corruption.</p>
+            <button class="btn btn-primary btn-lg" onclick="validateChain()">Run Validation</button>
+          </div>
+          <div id="validation-result" style="margin-top:1.5rem"></div>
+        </div>
+      </section>
+
+      <!-- ── AUDIT LOG ──────────────────────────────────────────────── -->
+      <section class="page-section" id="sec-audit-log">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📊 Audit Log</span>
+            <button class="btn btn-outline btn-sm" onclick="loadAuditLog()">🔄 Refresh</button>
+          </div>
+          <div id="audit-log-content"><div class="text-muted">Loading…</div></div>
+        </div>
+      </section>
+
+      <!-- ── USER MANAGEMENT ───────────────────────────────────────── -->
+      <section class="page-section" id="sec-user-management">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">👥 User Management</span>
+            <button class="btn btn-primary btn-sm" onclick="openAddUserModal()">➕ Add User</button>
+          </div>
+          <div id="users-content"><div class="text-muted">Loading…</div></div>
+        </div>
+      </section>
+
+    </main><!-- /content -->
+  </div><!-- /main-area -->
+</div><!-- /app -->
+
+<!-- ══════════ EVIDENCE DETAIL MODAL ══════════ -->
+<div class="modal-overlay" id="evidence-modal">
+  <div class="modal" style="max-width:780px">
+    <button class="modal-close" onclick="closeModal('evidence-modal')">✕</button>
+    <h3 id="modal-exhibit-title" style="margin-bottom:1rem">Evidence Details</h3>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ══════════ ADD USER MODAL ══════════ -->
+<div class="modal-overlay" id="add-user-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('add-user-modal')">✕</button>
+    <h3 style="margin-bottom:1.5rem">➕ Add New User</h3>
+    <div id="add-user-alert" class="alert"></div>
+    <div class="form-group"><label>Full Name *</label><input id="nu-fullname" placeholder="Inspector Name" /></div>
+    <div class="form-group"><label>Username *</label><input id="nu-username" placeholder="username" /></div>
+    <div class="form-group"><label>Password *</label><input id="nu-password" type="password" placeholder="••••••••" /></div>
+    <div class="form-group"><label>Role *</label>
+      <select id="nu-role">
+        <option value="IO">IO – Investigating Officer</option>
+        <option value="FORENSIC_EXPERT">Forensic Expert</option>
+        <option value="SUPERVISOR">Supervisor</option>
+        <option value="LEGAL_OFFICER">Legal Officer</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Badge Number *</label><input id="nu-badge" placeholder="IO-1234" /></div>
+    <button class="btn btn-primary btn-block" onclick="addUser()">Create User</button>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

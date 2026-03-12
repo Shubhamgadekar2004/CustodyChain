@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Digital Evidence Acquisition Form – Image File</title>
+  <style>
+    :root{--primary:#0d47a1;--accent:#00b0ff;--success:#00c853;--danger:#d32f2f;--warning:#ffd600;--dark:#0a0e1a;--card:#0f1629;--border:#1e2d55;--text:#e8eaf6;--muted:#8892b0;--input:#111c35;--radius:8px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;}
+    .form-header{background:linear-gradient(135deg,#060c1e,#0d2060);padding:2rem;text-align:center;border-bottom:2px solid #e040fb;}
+    .form-header .emblem{font-size:3rem;margin-bottom:0.5rem;}
+    .form-header h1{font-size:1.3rem;font-weight:700;letter-spacing:0.05em;color:#fff;}
+    .form-header p{font-size:0.85rem;color:var(--muted);margin-top:0.25rem;}
+    .blockchain-badge{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(224,64,251,0.1);border:1px solid #e040fb;border-radius:50px;padding:0.3rem 1rem;font-size:0.75rem;color:#e040fb;margin-top:0.75rem;}
+    .page{max-width:960px;margin:0 auto;padding:2rem;}
+    .section-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;}
+    .section-title{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#e040fb;margin-bottom:1.2rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+    .form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+    .form-group{margin-bottom:0.85rem;}
+    label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.35rem;}
+    input[type="text"],input[type="date"],input[type="time"],input[type="datetime-local"],input[type="number"],select,textarea{width:100%;background:var(--input);border:1px solid var(--border);border-radius:var(--radius);padding:0.6rem 0.9rem;color:var(--text);font-size:0.9rem;outline:none;transition:border-color .2s,box-shadow .2s;font-family:inherit;}
+    input:focus,select:focus,textarea:focus{border-color:#e040fb;box-shadow:0 0 0 3px rgba(224,64,251,.15);}
+    select option{background:var(--input);}
+    textarea{resize:vertical;min-height:70px;}
+    .radio-group,.check-group{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.4rem;}
+    .check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.5rem;margin-top:0.4rem;}
+    .r-label,.c-label{display:flex;align-items:center;gap:0.4rem;font-size:0.88rem;cursor:pointer;}
+    input[type="radio"],input[type="checkbox"]{accent-color:#e040fb;width:16px;height:16px;}
+    .btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.4rem;border:none;border-radius:var(--radius);font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;}
+    .btn-primary{background:linear-gradient(135deg,#6a1b9a,#4a148c);color:#fff;box-shadow:0 4px 14px rgba(106,27,154,.45);}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(106,27,154,.65);}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
+    .btn-outline:hover{border-color:#e040fb;color:#e040fb;}
+    .btn-sm{padding:0.4rem 0.85rem;font-size:0.8rem;}
+    .action-bar{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-top:1rem;}
+    .alert{padding:0.85rem 1rem;border-radius:var(--radius);margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;font-size:0.9rem;}
+    .alert.show{display:flex;}
+    .alert-success{background:rgba(0,200,83,.12);border:1px solid var(--success);color:#69f0ae;}
+    .alert-danger{background:rgba(211,47,47,.15);border:1px solid var(--danger);color:#ff6b6b;}
+    .alert-warning{background:rgba(255,214,0,.12);border:1px solid var(--warning);color:var(--warning);}
+    .result-box{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;font-size:0.82rem;}
+    .result-row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(30,45,85,.5);padding:0.4rem 0;}
+    .result-row:last-child{border-bottom:none;}
+    .result-key{color:var(--muted);}
+    .result-val{color:#fff;font-family:monospace;word-break:break-all;text-align:right;max-width:65%;}
+    .back-link{display:inline-flex;align-items:center;gap:0.4rem;color:var(--muted);font-size:0.82rem;margin-bottom:1rem;cursor:pointer;}
+    .back-link:hover{color:#e040fb;}
+    /* File drop zone */
+    .drop-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:2.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;}
+    .drop-zone:hover,.drop-zone.dragover{border-color:#e040fb;background:rgba(224,64,251,.05);}
+    .drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .drop-zone .dz-icon{font-size:2.5rem;margin-bottom:0.5rem;}
+    .drop-zone .dz-text{font-size:0.88rem;color:var(--muted);}
+    .drop-zone .dz-types{font-size:0.72rem;color:var(--muted);margin-top:0.3rem;}
+    .file-preview{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-top:0.75rem;display:none;}
+    .file-preview.show{display:flex;align-items:center;gap:1rem;}
+    .file-preview .file-icon{font-size:2rem;}
+    .file-preview .file-info .name{font-size:0.9rem;font-weight:600;}
+    .file-preview .file-info .meta{font-size:0.75rem;color:var(--muted);margin-top:0.2rem;}
+    .progress-bar{width:100%;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:0.5rem;display:none;}
+    .progress-bar.show{display:block;}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#e040fb);width:0;transition:width .3s;}
+    .exif-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+    .exif-table td{padding:0.35rem 0.5rem;border-bottom:1px solid rgba(30,45,85,.4);}
+    .exif-table td:first-child{color:var(--muted);width:45%;}
+    @media print{body{background:#fff;color:#000;}.section-card{border-color:#ccc;}.no-print{display:none!important;}.form-header{background:#fff;border-bottom:2px solid #000;}input,select,textarea{border:1px solid #999;background:#fff;color:#000;}}
+  </style>
+</head>
+<body>
+
+<div class="form-header">
+  <div class="emblem">🖼️</div>
+  <h1>DIGITAL EVIDENCE ACQUISITION FORM</h1>
+  <p>Image File Evidence &nbsp;·&nbsp; Cyber Forensics Division</p>
+  <div class="blockchain-badge">⛓ Blockchain-Secured · SHA-256 File Fingerprint</div>
+</div>
+
+<div class="page">
+  <a class="back-link no-print" onclick="history.back()">← Back</a>
+  <div id="alert-box" class="alert"></div>
+
+  <!-- ── Case Information ──────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">📋 Case Information</div>
+    <div class="form-row">
+      <div class="form-group"><label>Place of Seizure *</label><input type="text" id="place" placeholder="City / Location" /></div>
+      <div class="form-group"><label>Date *</label><input type="date" id="date" /></div>
+      <div class="form-group"><label>Case Number *</label><input type="text" id="caseNumber" placeholder="CYB/2026/…" /></div>
+      <div class="form-group"><label>Exhibit Marked As *</label><input type="text" id="exhibitMarkedAs" placeholder="A1, B2…" /></div>
+    </div>
+    <div class="form-group"><label>Exhibit Obtained From (Source)</label><input type="text" id="source" placeholder="Device name / suspect / URL / cloud service…" /></div>
+  </div>
+
+  <!-- ── Image File Details ────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">🖼️ Image File Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Original File Name</label><input type="text" id="originalFileName" placeholder="IMG_20260312_145223.jpg" /></div>
+      <div class="form-group">
+        <label>Image Format / Type</label>
+        <select id="imageFormat">
+          <option value="">-- Select --</option>
+          <option>JPEG / JPG</option>
+          <option>PNG</option>
+          <option>TIFF</option>
+          <option>BMP</option>
+          <option>GIF</option>
+          <option>HEIC / HEIF (Apple)</option>
+          <option>RAW (CR2/NEF/ARW)</option>
+          <option>WebP</option>
+          <option>JFIF</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>File Size</label><input type="text" id="fileSize" placeholder="e.g. 4.2 MB" /></div>
+      <div class="form-group"><label>Image Resolution</label><input type="text" id="resolution" placeholder="e.g. 4032 × 3024 px" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Colour Depth / Bit Depth</label><input type="text" id="bitDepth" placeholder="e.g. 24-bit RGB" /></div>
+      <div class="form-group"><label>Colour Space</label><select id="colorSpace"><option value="">--</option><option>sRGB</option><option>Adobe RGB</option><option>ProPhoto RGB</option><option>CMYK</option><option>Grayscale</option><option>Other</option></select></div>
+      <div class="form-group"><label>Compression / Quality</label><input type="text" id="compression" placeholder="JPEG Q92 / Lossless PNG…" /></div>
+    </div>
+  </div>
+
+  <!-- ── EXIF / Metadata ───────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">📍 EXIF / Metadata Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Camera Make / Model</label><input type="text" id="cameraMake" placeholder="Apple iPhone 15 Pro / Canon EOS R5…" /></div>
+      <div class="form-group"><label>Date / Time Original (EXIF)</label><input type="datetime-local" id="exifDateTime" /></div>
+      <div class="form-group"><label>GPS Latitude</label><input type="text" id="gpsLat" placeholder="e.g. 28.6139° N" /></div>
+      <div class="form-group"><label>GPS Longitude</label><input type="text" id="gpsLon" placeholder="e.g. 77.2090° E" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Altitude (GPS)</label><input type="text" id="gpsAlt" placeholder="e.g. 216 m" /></div>
+      <div class="form-group"><label>Software / Application Used</label><input type="text" id="softwareExif" placeholder="Camera app / Instagram / WhatsApp…" /></div>
+    </div>
+    <div class="form-group">
+      <label>EXIF Metadata Intact?</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="exifIntact" value="Yes" /> Yes</label>
+        <label class="r-label"><input type="radio" name="exifIntact" value="No – Stripped" /> No – Stripped</label>
+        <label class="r-label"><input type="radio" name="exifIntact" value="Partial" /> Partial</label>
+        <label class="r-label"><input type="radio" name="exifIntact" value="Unknown" /> Unknown</label>
+      </div>
+    </div>
+    <div class="form-group"><label>Additional EXIF / Metadata Notes</label><textarea id="exifNotes" rows="2" placeholder="Other embedded metadata, steganography suspected, etc."></textarea></div>
+  </div>
+
+  <!-- ── Hash & Integrity ──────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">🔐 Hash & Integrity Verification</div>
+    <div class="form-row">
+      <div class="form-group"><label>MD5 Hash</label><input type="text" id="md5Hash" placeholder="32-char MD5" style="font-family:monospace" /></div>
+      <div class="form-group"><label>SHA-256 Hash</label><input type="text" id="sha256Hash" placeholder="64-char SHA-256" style="font-family:monospace" /></div>
+    </div>
+    <div class="form-group">
+      <label>Has Image Been Modified / Edited?</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="imageModified" value="No – Original" /> No – Original</label>
+        <label class="r-label"><input type="radio" name="imageModified" value="Yes – Cropped" /> Yes – Cropped</label>
+        <label class="r-label"><input type="radio" name="imageModified" value="Yes – Edited" /> Yes – Edited</label>
+        <label class="r-label"><input type="radio" name="imageModified" value="Unknown" /> Unknown</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Steganography Analysis Performed?</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="steganography" value="Yes – Clean" /> Yes – Clean</label>
+        <label class="r-label"><input type="radio" name="steganography" value="Yes – Content Found" /> Yes – Content Found</label>
+        <label class="r-label"><input type="radio" name="steganography" value="No" /> Not Performed</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Source & Chain of Custody ────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">🔗 Source & Acquisition Details</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Source Type</label>
+        <select id="sourceType">
+          <option value="">-- Select --</option>
+          <option>Mobile Device Gallery</option>
+          <option>Desktop / Laptop</option>
+          <option>Cloud Storage (Google Drive / iCloud / OneDrive)</option>
+          <option>Social Media (WhatsApp / Facebook / Instagram)</option>
+          <option>Email Attachment</option>
+          <option>CCTV / Security Camera</option>
+          <option>Drone / UAV Recording</option>
+          <option>Hidden Camera</option>
+          <option>Forensic Image Acquisition</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Acquisition Tool / Software</label><input type="text" id="acquisitionTool" placeholder="Cellebrite / FTK Imager / Manual copy…" /></div>
+      <div class="form-group"><label>Date / Time of Acquisition</label><input type="datetime-local" id="acquisitionDateTime" /></div>
+    </div>
+    <div class="form-group"><label>Remarks / Observations</label><textarea id="remarks" rows="3" placeholder="Additional context, content description, links to case…"></textarea></div>
+  </div>
+
+  <!-- ── File Upload ───────────────────────────────────────── -->
+  <div class="section-card no-print">
+    <div class="section-title">📤 Upload Image File (Optional)</div>
+    <p class="dz-types" style="margin-bottom:1rem;font-size:0.82rem;color:var(--muted);">
+      ℹ️ The file is hashed (SHA-256) and its fingerprint is stored on the blockchain. Max 500 MB.
+    </p>
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept="image/*,.tiff,.tif,.heic,.heif,.raw,.cr2,.nef,.arw" />
+      <div class="dz-icon">🖼️</div>
+      <div class="dz-text">Drag & drop image file here, or click to browse</div>
+      <div class="dz-types">Accepted: JPEG, PNG, TIFF, BMP, GIF, HEIC, RAW, WebP</div>
+    </div>
+    <div class="file-preview" id="filePreview">
+      <div class="file-icon" id="previewIcon">🖼️</div>
+      <div class="file-info">
+        <div class="name" id="previewName"></div>
+        <div class="meta" id="previewMeta"></div>
+      </div>
+    </div>
+    <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <!-- ── Expert Details ────────────────────────────────────── -->
+  <div class="section-card no-print">
+    <div class="section-title">✍️ Forensic / Technical Expert</div>
+    <div class="form-row">
+      <div class="form-group"><label>Name &amp; Designation</label><input type="text" id="expertName" placeholder="Full Name, Designation" /></div>
+      <div class="form-group"><label>Badge / ID</label><input type="text" id="expertBadge" /></div>
+    </div>
+  </div>
+
+  <!-- ── Actions ───────────────────────────────────────────── -->
+  <div class="action-bar no-print">
+    <button class="btn btn-primary" onclick="submitToBlockchain()">⛓ Submit to Blockchain</button>
+    <button class="btn btn-outline" onclick="window.print()">🖨️ Print Form</button>
+    <button class="btn btn-outline" onclick="clearAll()">🔄 Clear</button>
+    <a class="btn btn-outline" href="/dashboard.html">⬅️ Dashboard</a>
+  </div>
+
+  <div id="result-section" style="display:none;margin-top:1.5rem">
+    <div class="section-card">
+      <div class="section-title">⛓ Blockchain Registration Confirmation</div>
+      <div id="result-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const token = sessionStorage.getItem('dems_token');
+  document.getElementById('date').valueAsDate = new Date();
+
+  // File preview
+  const fileInput = document.getElementById('fileInput');
+  const dropZone  = document.getElementById('dropZone');
+  const preview   = document.getElementById('filePreview');
+
+  function showPreview(file){
+    document.getElementById('previewName').textContent = file.name;
+    document.getElementById('previewMeta').textContent = `${(file.size/1024/1024).toFixed(2)} MB · ${file.type||'unknown'}`;
+    preview.classList.add('show');
+    // Auto-fill fields
+    document.getElementById('originalFileName').value = file.name;
+    document.getElementById('fileSize').value = (file.size/1024/1024).toFixed(2)+' MB';
+    const ext = file.name.split('.').pop().toUpperCase();
+    ['JPEG','JPG','PNG','TIFF','BMP','GIF','HEIC','WEBP'].includes(ext) &&
+      (document.getElementById('imageFormat').value = ext==='JPG'?'JPEG / JPG':'PNG'||ext);
+  }
+  fileInput.addEventListener('change', ()=>{ if(fileInput.files[0]) showPreview(fileInput.files[0]); });
+  dropZone.addEventListener('dragover', e=>{ e.preventDefault(); dropZone.classList.add('dragover'); });
+  dropZone.addEventListener('dragleave', ()=>dropZone.classList.remove('dragover'));
+  dropZone.addEventListener('drop', e=>{ e.preventDefault(); dropZone.classList.remove('dragover'); const f=e.dataTransfer.files[0]; if(f){ fileInput.files=e.dataTransfer.files; showPreview(f); }});
+
+  function showAlert(msg,type='danger'){
+    const el=document.getElementById('alert-box');
+    el.className=`alert alert-${type} show`;
+    el.innerHTML=(type==='success'?'✅':type==='warning'?'⚠️':'❌')+' '+msg;
+    el.scrollIntoView({behavior:'smooth'});
+  }
+
+  function g(id){ const el=document.getElementById(id); return el?el.value:''; }
+  function radio(name){ const el=document.querySelector(`input[name="${name}"]:checked`); return el?el.value:''; }
+
+  window.submitToBlockchain = async function(){
+    if(!token){ alert('Please login'); window.location.href='/'; return; }
+    const fd = { place:g('place'),date:g('date'),caseNumber:g('caseNumber'),exhibitMarkedAs:g('exhibitMarkedAs'),source:g('source'),
+      originalFileName:g('originalFileName'),imageFormat:g('imageFormat'),fileSize:g('fileSize'),resolution:g('resolution'),
+      bitDepth:g('bitDepth'),colorSpace:g('colorSpace'),compression:g('compression'),
+      cameraMake:g('cameraMake'),exifDateTime:g('exifDateTime'),gpsLat:g('gpsLat'),gpsLon:g('gpsLon'),gpsAlt:g('gpsAlt'),
+      softwareExif:g('softwareExif'),exifIntact:radio('exifIntact'),exifNotes:g('exifNotes'),
+      md5Hash:g('md5Hash'),sha256Hash:g('sha256Hash'),imageModified:radio('imageModified'),steganography:radio('steganography'),
+      sourceType:g('sourceType'),acquisitionTool:g('acquisitionTool'),acquisitionDateTime:g('acquisitionDateTime'),
+      remarks:g('remarks'),expertName:g('expertName'),expertBadge:g('expertBadge'),
+    };
+    if(!fd.place||!fd.date||!fd.caseNumber||!fd.exhibitMarkedAs){ showAlert('Fill Place, Date, Case Number, Exhibit Marked As'); return; }
+
+    const formData = new FormData();
+    formData.append('type','IMAGE_EVIDENCE');
+    formData.append('caseNumber',fd.caseNumber);
+    formData.append('exhibitMarkedAs',fd.exhibitMarkedAs);
+    formData.append('metadata',JSON.stringify(fd));
+    const file = fileInput.files[0];
+    if(file) formData.append('file',file);
+
+    document.getElementById('progressBar').classList.add('show');
+    const fill = document.getElementById('progressFill');
+    let prog = 0; const progInterval = setInterval(()=>{ prog=Math.min(prog+10,85); fill.style.width=prog+'%'; },200);
+
+    try{
+      const res = await fetch('/api/upload/submit',{
+        method:'POST', headers:{'Authorization':'Bearer '+token}, body:formData
+      });
+      const data = await res.json();
+      clearInterval(progInterval); fill.style.width='100%';
+      if(!res.ok) throw new Error(data.error);
+
+      showAlert('Image evidence registered on blockchain!','success');
+      document.getElementById('result-section').style.display='block';
+      document.getElementById('result-content').innerHTML=`
+        <div class="result-box">
+          <div class="result-row"><span class="result-key">Exhibit ID</span><span class="result-val">${data.exhibitId}</span></div>
+          <div class="result-row"><span class="result-key">Block Index</span><span class="result-val">#${data.blockIndex}</span></div>
+          <div class="result-row"><span class="result-key">Block Hash (SHA-256)</span><span class="result-val">${data.blockHash}</span></div>
+          ${data.fileHash?`<div class="result-row"><span class="result-key">File Hash (SHA-256)</span><span class="result-val">${data.fileHash}</span></div>`:''}
+          ${data.fileInfo?`<div class="result-row"><span class="result-key">File Name</span><span class="result-val">${data.fileInfo.originalName}</span></div>
+          <div class="result-row"><span class="result-key">File Size</span><span class="result-val">${data.fileInfo.sizeFormatted}</span></div>`:''}
+          <div class="result-row"><span class="result-key">Timestamp</span><span class="result-val">${new Date(data.submittedAt).toLocaleString('en-IN')}</span></div>
+        </div>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.75rem">⛓ The file's SHA-256 hash is permanently embedded in the blockchain. Any modification to the file will produce a different hash, proving tampering.</p>
+        <div style="margin-top:0.75rem;display:flex;gap:0.75rem">
+          ${data.fileInfo?`<button class="btn btn-outline btn-sm" onclick="window.open('/api/upload/download/${data.blockId}')">⬇️ Download File</button>`:''}
+          <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Print</button>
+          <a class="btn btn-outline btn-sm" href="/dashboard.html">📋 Dashboard</a>
+        </div>`;
+    } catch(e){ clearInterval(progInterval); fill.style.width='0'; showAlert(e.message); }
+  };
+
+  window.clearAll=function(){ document.querySelectorAll('input:not([type=file]),select,textarea').forEach(el=>{ if(el.type==='radio'||el.type==='checkbox') el.checked=false; else el.value=''; }); preview.classList.remove('show'); };
+})();
+</script>
+</body>
+</html>

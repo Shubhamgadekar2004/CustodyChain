@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEMS – Login | Digital Evidence Management System</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>" />
+</head>
+<body>
+<div class="login-page">
+
+  <!-- ── Left Art Panel ─────────────────────────────────────────────── -->
+  <div class="login-art">
+    <div class="chain-visual">
+      <div class="chain-block">🔒</div>
+      <span class="chain-link">⛓</span>
+      <div class="chain-block">📂</div>
+      <span class="chain-link">⛓</span>
+      <div class="chain-block">🔬</div>
+      <span class="chain-link">⛓</span>
+      <div class="chain-block">⚖️</div>
+    </div>
+
+    <h1>Digital Evidence<br /><span>Management System</span></h1>
+    <p class="tagline">
+      Blockchain-secured digital forensics platform ensuring unbreakable
+      chain of custody, tamper-proof evidence integrity and cryptographic
+      authenticity for cyber investigations.
+    </p>
+
+    <div class="badge-strip">
+      <span class="badge-item">🔐 SHA-256 Hashing</span>
+      <span class="badge-item">⛓ Immutable Chain</span>
+      <span class="badge-item">🛡️ Role-Based Access</span>
+      <span class="badge-item">📋 Chain of Custody</span>
+      <span class="badge-item">🔬 Forensic Sign-off</span>
+      <span class="badge-item">📊 Audit Trail</span>
+    </div>
+  </div>
+
+  <!-- ── Right Login Panel ───────────────────────────────────────────── -->
+  <div class="login-panel">
+    <div class="logo">🔗</div>
+    <h2>Secure Login</h2>
+    <p class="sub">Cyber Forensics Division – Authorized Access Only</p>
+
+    <div id="login-alert" class="alert alert-danger">
+      <span>⚠️</span><span id="login-alert-msg"></span>
+    </div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" placeholder="Enter your username" autocomplete="username" required />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn-block btn-lg" id="login-btn">
+        <span id="login-btn-text">Login to DEMS</span>
+        <span id="login-spinner" class="loader hidden"></span>
+      </button>
+    </form>
+
+    <div class="mt-3 text-center text-sm text-muted">
+      <strong>Demo Credentials</strong><br />
+      <span style="font-size:0.75rem;line-height:2">
+        admin / Admin@1234 &nbsp;|&nbsp; io_officer / IO@secur3<br />
+        forensic1 / Fore@nsic9 &nbsp;|&nbsp; supervisor / Sup@rvis0r<br />
+        legal1 / Legal@55
+      </span>
+    </div>
+
+    <div class="mt-3 text-center text-sm text-muted" style="font-size:0.72rem;">
+      🔒 All sessions are encrypted & logged. Unauthorized access is a criminal offence.
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  const API = '';  // same-origin
+
+  const form       = document.getElementById('login-form');
+  const alertBox   = document.getElementById('login-alert');
+  const alertMsg   = document.getElementById('login-alert-msg');
+  const btnText    = document.getElementById('login-btn-text');
+  const spinner    = document.getElementById('login-spinner');
+
+  function showError(msg) {
+    alertMsg.textContent = msg;
+    alertBox.classList.add('show');
+  }
+  function hideError() { alertBox.classList.remove('show'); }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideError();
+    btnText.textContent = 'Authenticating…';
+    spinner.classList.remove('hidden');
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+
+    try {
+      const res = await fetch(`${API}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Login failed');
+
+      // Persist session
+      sessionStorage.setItem('dems_token', data.token);
+      sessionStorage.setItem('dems_user', JSON.stringify(data.user));
+
+      window.location.href = '/dashboard.html';
+    } catch (err) {
+      showError(err.message);
+      btnText.textContent = 'Login to DEMS';
+      spinner.classList.add('hidden');
+    }
+  });
+
+  // Already logged in?
+  if (sessionStorage.getItem('dems_token')) {
+    window.location.href = '/dashboard.html';
+  }
+})();
+</script>
+</body>
+</html>

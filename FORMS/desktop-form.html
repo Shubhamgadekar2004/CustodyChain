@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Digital Evidence Acquisition Form – Desktop / Laptop / Server</title>
+  <style>
+    :root{--primary:#0d47a1;--accent:#00b0ff;--success:#00c853;--danger:#d32f2f;--dark:#0a0e1a;--card:#0f1629;--border:#1e2d55;--text:#e8eaf6;--muted:#8892b0;--input:#111c35;--radius:8px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;}
+    .form-header{background:linear-gradient(135deg,#060c1e,#0d2060);padding:2rem;text-align:center;border-bottom:2px solid var(--accent);}
+    .form-header .emblem{font-size:3rem;margin-bottom:0.5rem;}
+    .form-header h1{font-size:1.3rem;font-weight:700;letter-spacing:0.05em;color:#fff;}
+    .form-header p{font-size:0.85rem;color:var(--muted);margin-top:0.25rem;}
+    .blockchain-badge{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(0,176,255,0.1);border:1px solid var(--accent);border-radius:50px;padding:0.3rem 1rem;font-size:0.75rem;color:var(--accent);margin-top:0.75rem;}
+    .page{max-width:960px;margin:0 auto;padding:2rem;}
+    .section-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;}
+    .section-title{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:1.2rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.5rem;}
+    .form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+    .form-group{margin-bottom:0.85rem;}
+    label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.35rem;}
+    input[type="text"],input[type="date"],input[type="time"],input[type="datetime-local"],select,textarea{width:100%;background:var(--input);border:1px solid var(--border);border-radius:var(--radius);padding:0.6rem 0.9rem;color:var(--text);font-size:0.9rem;outline:none;transition:border-color .2s,box-shadow .2s;font-family:inherit;}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,176,255,.15);}
+    select option{background:var(--input);}
+    textarea{resize:vertical;min-height:70px;}
+    .radio-group{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.4rem;}
+    .check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.5rem;margin-top:0.4rem;}
+    .r-label,.c-label{display:flex;align-items:center;gap:0.4rem;font-size:0.88rem;cursor:pointer;}
+    input[type="radio"],input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px;}
+    .btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.4rem;border:none;border-radius:var(--radius);font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;}
+    .btn-primary{background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;box-shadow:0 4px 14px rgba(13,71,161,.45);}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(13,71,161,.65);}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+    .btn-sm{padding:0.4rem 0.85rem;font-size:0.8rem;}
+    .action-bar{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-top:1rem;}
+    .alert{padding:0.85rem 1rem;border-radius:var(--radius);margin-bottom:1rem;display:none;align-items:center;gap:0.5rem;font-size:0.9rem;}
+    .alert.show{display:flex;}
+    .alert-success{background:rgba(0,200,83,.12);border:1px solid var(--success);color:#69f0ae;}
+    .alert-danger{background:rgba(211,47,47,.15);border:1px solid var(--danger);color:#ff6b6b;}
+    .result-box{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;font-size:0.82rem;}
+    .result-row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(30,45,85,.5);padding:0.4rem 0;}
+    .result-row:last-child{border-bottom:none;}
+    .result-key{color:var(--muted);}
+    .result-val{color:#fff;font-family:monospace;word-break:break-all;text-align:right;max-width:60%;}
+    .back-link{display:inline-flex;align-items:center;gap:0.4rem;color:var(--muted);font-size:0.82rem;margin-bottom:1rem;cursor:pointer;}
+    .back-link:hover{color:var(--accent);}
+    .info-note{background:rgba(0,176,255,0.07);border:1px solid rgba(0,176,255,0.2);border-radius:var(--radius);padding:0.75rem 1rem;font-size:0.82rem;color:var(--accent);margin-bottom:1rem;}
+    @media print{body{background:#fff;color:#000;}.section-card{border-color:#ccc;}.no-print{display:none!important;}.form-header{background:#fff;border-bottom:2px solid #000;}.blockchain-badge{border-color:#000;color:#000;}input,select,textarea{border:1px solid #999;background:#fff;color:#000;}}
+  </style>
+</head>
+<body>
+
+<div class="form-header">
+  <div class="emblem">💻</div>
+  <h1>DIGITAL EVIDENCE ACQUISITION FORM</h1>
+  <p>Desktop Computer / Laptop / Server &nbsp;·&nbsp; Cyber Forensics Division</p>
+  <div class="blockchain-badge">⛓ Blockchain-Secured Evidence Record</div>
+</div>
+
+<div class="page">
+  <a class="back-link no-print" onclick="history.back()">← Back</a>
+
+  <div id="alert-box" class="alert"></div>
+
+  <!-- ── Case Information ──────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">📋 Case Information</div>
+    <div class="form-row">
+      <div class="form-group"><label>Place *</label><input type="text" id="place" placeholder="City / Station" /></div>
+      <div class="form-group"><label>Date *</label><input type="date" id="date" /></div>
+      <div class="form-group"><label>Case Number *</label><input type="text" id="caseNumber" placeholder="CYB/2026/…" /></div>
+      <div class="form-group"><label>Exhibit Marked As *</label><input type="text" id="exhibitMarkedAs" placeholder="A1, B2…" /></div>
+    </div>
+  </div>
+
+  <!-- ── Device Details ────────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">💻 Details of Device</div>
+    <div class="form-row">
+      <div class="form-group"><label>Make</label><input type="text" id="make" placeholder="Dell / HP / Lenovo / Apple…" /></div>
+      <div class="form-group"><label>Model</label><input type="text" id="model" placeholder="Latitude 7420 / MacBook Pro…" /></div>
+      <div class="form-group"><label>Serial Number</label><input type="text" id="serialNumber" /></div>
+      <div class="form-group"><label>Model Number</label><input type="text" id="modelNumber" /></div>
+    </div>
+    <div class="form-group">
+      <label>Power State at Time of Seizure</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="powerState" value="ON"  id="stateON"  /> 🟢 ON</label>
+        <label class="r-label"><input type="radio" name="powerState" value="OFF" id="stateOFF" /> 🔴 OFF</label>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>BIOS Date</label><input type="date" id="biosDate" /></div>
+      <div class="form-group"><label>BIOS Time</label><input type="time" id="biosTime" /></div>
+    </div>
+    <div class="form-group">
+      <label>Encryption Found?</label>
+      <div class="radio-group">
+        <label class="r-label"><input type="radio" name="encryptionFound" value="YES" /> YES</label>
+        <label class="r-label"><input type="radio" name="encryptionFound" value="NO"  /> NO</label>
+      </div>
+    </div>
+    <div class="form-group"><label>Remarks / Observations</label><textarea id="remarks" rows="3" placeholder="Any notable observations about the device…"></textarea></div>
+  </div>
+
+  <!-- ── Action if System ON ───────────────────────────────── -->
+  <div class="section-card">
+    <div class="info-note">ℹ️ Select Appropriate Option based on System State at time of seizure</div>
+    <div class="section-title">⚙️ Actions Taken — System State: ON</div>
+    <div class="check-grid">
+      <label class="c-label"><input type="checkbox" id="actNormalShutdown" /> Normal Shutdown</label>
+      <label class="c-label"><input type="checkbox" id="actForcedShutdown" /> Forced Shutdown</label>
+      <label class="c-label"><input type="checkbox" id="actRemovePower"    /> Remove Power Cable from CPU</label>
+      <label class="c-label"><input type="checkbox" id="actForensicSW"     /> Forensic S/W Used</label>
+    </div>
+    <div class="form-group" style="margin-top:1rem">
+      <label>Forensic Software Used (if applicable)</label>
+      <input type="text" id="forensicSW" placeholder="EnCase / FTK / Paladin…" />
+    </div>
+  </div>
+
+  <!-- ── Action if System OFF ──────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">⚙️ Actions Taken — System State: OFF</div>
+    <div class="check-grid">
+      <label class="c-label"><input type="checkbox" id="actRemoveHDD"      /> Remove Hard Disk Directly</label>
+      <label class="c-label"><input type="checkbox" id="actBootCD"         /> Boot Using Bootable CD / USB</label>
+      <label class="c-label"><input type="checkbox" id="actNetworkCrossover"/> Used Network Crossover Cable</label>
+    </div>
+  </div>
+
+  <!-- ── HDD / SSD Details ─────────────────────────────────── -->
+  <div class="section-card">
+    <div class="section-title">🗄️ Suspect HDD / SSD Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Make</label><input type="text" id="hddMake" placeholder="Seagate / WD / Samsung…" /></div>
+      <div class="form-group"><label>Model</label><input type="text" id="hddModel" /></div>
+      <div class="form-group"><label>Serial Number</label><input type="text" id="hddSerial" /></div>
+      <div class="form-group"><label>Capacity</label><input type="text" id="hddCapacity" placeholder="500GB / 1TB / 2TB…" /></div>
+    </div>
+    <div class="form-group">
+      <label>Interface Type</label>
+      <div class="check-grid">
+        <label class="c-label"><input type="checkbox" id="ifIDE"   /> IDE</label>
+        <label class="c-label"><input type="checkbox" id="ifSATA"  /> SATA</label>
+        <label class="c-label"><input type="checkbox" id="ifATA"   /> ATA</label>
+        <label class="c-label"><input type="checkbox" id="ifSCSI"  /> SCSI</label>
+        <label class="c-label"><input type="checkbox" id="ifUSB"   /> USB</label>
+        <label class="c-label"><input type="checkbox" id="ifOther" /> Other</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Additional Storage Devices (if any)</label>
+      <textarea id="additionalStorage" rows="2" placeholder="Any other drives, RAIDs, NAS, DVDs found…"></textarea>
+    </div>
+  </div>
+
+  <!-- ── Expert Details ────────────────────────────────────── -->
+  <div class="section-card no-print">
+    <div class="section-title">✍️ Technical / Forensic Expert Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Name &amp; Designation</label><input type="text" id="expertName" placeholder="Full Name, Designation" /></div>
+      <div class="form-group"><label>Badge / Employee ID</label><input type="text" id="expertBadge" /></div>
+    </div>
+  </div>
+
+  <!-- ── Actions ───────────────────────────────────────────── -->
+  <div class="action-bar no-print">
+    <button class="btn btn-primary" onclick="submitToBlockchain()">⛓ Submit to Blockchain</button>
+    <button class="btn btn-outline" onclick="window.print()">🖨️ Print Form</button>
+    <button class="btn btn-outline" onclick="clearForm()">🔄 Clear</button>
+    <a class="btn btn-outline" href="/dashboard.html">⬅️ Dashboard</a>
+  </div>
+
+  <!-- ── Result ─────────────────────────────────────────────── -->
+  <div id="result-section" style="display:none;margin-top:1.5rem">
+    <div class="section-card">
+      <div class="section-title">⛓ Blockchain Registration Confirmation</div>
+      <div id="result-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const token = sessionStorage.getItem('dems_token');
+  document.getElementById('date').valueAsDate = new Date();
+
+  function showAlert(msg,type='danger'){
+    const el=document.getElementById('alert-box');
+    el.className=`alert alert-${type} show`;
+    el.innerHTML=(type==='success'?'✅':'❌')+' '+msg;
+    el.scrollIntoView({behavior:'smooth'});
+  }
+
+  function chk(id){ const el=document.getElementById(id); return el ? el.checked : false; }
+  function g(id)  { const el=document.getElementById(id); return el ? el.value : ''; }
+  function radio(name){ const el=document.querySelector(`input[name="${name}"]:checked`); return el?el.value:''; }
+
+  function collect(){
+    return {
+      place:g('place'), date:g('date'), caseNumber:g('caseNumber'), exhibitMarkedAs:g('exhibitMarkedAs'),
+      make:g('make'), model:g('model'), serialNumber:g('serialNumber'), modelNumber:g('modelNumber'),
+      powerState:radio('powerState'), biosDate:g('biosDate'), biosTime:g('biosTime'),
+      encryptionFound:radio('encryptionFound'), remarks:g('remarks'),
+      actNormalShutdown:chk('actNormalShutdown'), actForcedShutdown:chk('actForcedShutdown'),
+      actRemovePower:chk('actRemovePower'), actForensicSW:chk('actForensicSW'),
+      forensicSW:g('forensicSW'),
+      actRemoveHDD:chk('actRemoveHDD'), actBootCD:chk('actBootCD'), actNetworkCrossover:chk('actNetworkCrossover'),
+      hddMake:g('hddMake'), hddModel:g('hddModel'), hddSerial:g('hddSerial'), hddCapacity:g('hddCapacity'),
+      ifIDE:chk('ifIDE'), ifSATA:chk('ifSATA'), ifATA:chk('ifATA'),
+      ifSCSI:chk('ifSCSI'), ifUSB:chk('ifUSB'), ifOther:chk('ifOther'),
+      additionalStorage:g('additionalStorage'),
+      expertName:g('expertName'), expertBadge:g('expertBadge'),
+    };
+  }
+
+  window.submitToBlockchain = async function(){
+    if(!token){ alert('Please login first'); window.location.href='/'; return; }
+    const fd=collect();
+    if(!fd.place||!fd.date||!fd.caseNumber||!fd.exhibitMarkedAs){
+      showAlert('Fill Place, Date, Case Number and Exhibit Marked As'); return;
+    }
+    try{
+      const res=await fetch('/api/evidence/submit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+        body:JSON.stringify({type:'DESKTOP_LAPTOP_SERVER',caseNumber:fd.caseNumber,exhibitMarkedAs:fd.exhibitMarkedAs,formData:fd})
+      });
+      const data=await res.json();
+      if(!res.ok) throw new Error(data.error);
+      showAlert('Evidence registered on blockchain!','success');
+      document.getElementById('result-section').style.display='block';
+      document.getElementById('result-content').innerHTML=`
+        <div class="result-box">
+          <div class="result-row"><span class="result-key">Exhibit ID</span><span class="result-val">${data.exhibitId}</span></div>
+          <div class="result-row"><span class="result-key">Block Index</span><span class="result-val">#${data.blockIndex}</span></div>
+          <div class="result-row"><span class="result-key">Block Hash</span><span class="result-val">${data.blockHash}</span></div>
+          <div class="result-row"><span class="result-key">Data Fingerprint</span><span class="result-val">${data.dataHash}</span></div>
+          <div class="result-row"><span class="result-key">Timestamp</span><span class="result-val">${new Date(data.submittedAt).toLocaleString('en-IN')}</span></div>
+        </div>
+        <div style="margin-top:0.75rem;display:flex;gap:0.75rem">
+          <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Print</button>
+          <a class="btn btn-outline btn-sm" href="/dashboard.html">📋 Dashboard</a>
+        </div>`;
+    } catch(e){ showAlert(e.message); }
+  };
+
+  window.clearForm=function(){ document.querySelectorAll('input,select,textarea').forEach(el=>{ if(el.type==='radio'||el.type==='checkbox') el.checked=false; else el.value=''; }); };
+})();
+</script>
+</body>
+</html>
